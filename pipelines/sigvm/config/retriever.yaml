@@ -14,8 +14,7 @@ readers:
           parameters:
             depth_offset: 0.25
             salinity: 30
-            magnetic_declination: 15.7
-            correlation_threshold: 50
+            magnetic_declination: 15.6
 
 coords:
   time:

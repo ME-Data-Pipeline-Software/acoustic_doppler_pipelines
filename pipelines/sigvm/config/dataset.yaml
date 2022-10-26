@@ -87,18 +87,24 @@ data_vars:
     attrs:
       description: "Measured water velocity"
       units: "m/s"
+      valid_min: -8
+      valid_max: 8
   velocity_bt:
     dims: [time_bt]
     dtype: float
     attrs:
       description: "Bottom track velocity"
       units: "m/s"
+      valid_min: -5
+      valid_max: 5
   velocity_corrected:
     dims: [direction, range, time]
     dtype: float
     attrs:
       description: "Water velocity corrected by bottom track"
       units: "m/s"
+      valid_min: -3
+      valid_max: 3
   amplitude:
     dims: [direction, range, time]
     dtype: float
@@ -147,16 +153,22 @@ data_vars:
     dtype: float
     attrs:
       units: "deg"
+      valid_min: -180
+      valid_max: 180
   pitch:
     dims: [time]
     dtype: float
     attrs:
       units: "deg"
+      valid_min: -180
+      valid_max: 180
   roll:
     dims: [time]
     dtype: float
     attrs:
       units: "deg"
+      valid_min: -180
+      valid_max: 180
   acceleration:
     dims: [directionIMU, time]
     dtype: float

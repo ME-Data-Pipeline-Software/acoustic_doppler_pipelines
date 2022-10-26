@@ -42,6 +42,7 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMin
     handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 2
@@ -54,6 +55,7 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMax
     handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 3
@@ -61,3 +63,28 @@ managers:
           meaning: "Value is greater than the valid_max."
     apply_to:
       - DATA_VARS
+
+  - name: Flag data below correlation threshold
+    checker:
+      classname: shared.qc.CheckCorrelation
+      parameters:
+        correlation_threshold: 30
+    handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
+      - classname: tsdat.qc.handlers.RecordQualityResults
+        parameters:
+          bit: 4
+          assessment: bad
+          meaning: "Value is less than correlation threshold"
+    apply_to: [velocity, velocity_corrected, correlation, amplitude]
+
+  # - name: Goring Nikora 2002 despiking algorithm
+  #   checker:
+  #     classname: shared.qc.CheckGoringNikora2002
+  #   handlers:
+  #     - classname: tsdat.qc.handlers.RecordQualityResults
+  #       parameters:
+  #         bit: 5
+  #         assessment: bad
+  #         meaning: "Spike detected by Goring-Nikora algorithm"
+  #   apply_to: [velocity, velocity_bt, velocity_corrected]

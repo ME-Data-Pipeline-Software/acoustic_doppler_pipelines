@@ -14,22 +14,50 @@ instructions for running and testing your pipeline.
 
 * Make sure to activate the tsdat-pipelines anaconda environment before running any commands:  `conda activate tsdat-pipelines`
 
+## Editing pipeline data fields
+This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
+echosounder. It also has some basic parameters set up for sampling in Sequim Bay.
+
+1. If you are not running the echosounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
+Remove all entries that have the `_echo` tag. You can do this as well for `dataset.yaml`, but this isn't critical.
+
+2. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
+
+    a. "depth_offset" is the distance below the waterline that the ADCP transducers sit
+
+    b. "salinity" is the water salinity, which is probably around 30 for Sequim Bay inlet, but it varies on the 
+    tide.
+
+    c. "magnetic_declination" is the current magnetic declination. You can look this up online.
+
+3. In `dataset.yaml`, update the information under the `attrs` block to something more descriptive for the data 
+if desired.
+
+4. There is one parameter listed in `shared/quality.yaml` that can be updated:
+
+    a. "correlation_threshold" is for a QC test that removes velocity data below a certain % acoustic signal 
+    correlation.
+
+
 ## Running your pipeline
 This section shows you how to run the ingest pipeline created by the template.  Note that `{ingest-name}` refers
 to the pipeline name you typed into the template prompt, and `{location}` refers to the location you typed into
 the template prompt.
 
-1. Make sure to be at your $REPOSITORY_ROOT. (i.e., where you cloned the pipeline-template repository)
-
+1. Make sure to be in the `SigVM_pipeline` folder
 
 2. Run the runner.py with your test data input file as shown below:
 
 ```bash
-cd $REPOSITORY_ROOT
+cd $PATH_TO_PIPELINE/SigVM_pipeline
 conda activate tsdat-pipelines # <-- you only need to do this the first time you start a terminal shell
-python runner.py pipelines/{ingest-name}/test/data/input/{location}_data.csv
+python runner.py $PATH_TO_DATA/{filename}.SigVM
 ```
 
+3. Finally, data and plots are saved in `SigVM_pipeline/storage/root/`
+
+
+# Pipeline Development
 ## Test data
 Out of the box, your pipeline comes with some initial test data located in the  `pipelines/{ingest-name}/test/data/input/`
 folder.  This folder is meant to store data used for regression tests that will run before your

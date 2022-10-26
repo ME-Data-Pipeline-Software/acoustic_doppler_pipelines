@@ -31,7 +31,6 @@ class DownFacingADCPReader(DataReader):
         depth_offset: float = 0.5
         salinity: float = 35
         magnetic_declination: float = 0
-        correlation_threshold: float = 30
 
     parameters: Parameters = Parameters()
     """Extra parameters that can be set via the retrieval configuration file. If you opt
@@ -71,10 +70,6 @@ class DownFacingADCPReader(DataReader):
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
         dolfyn.rotate2(ds, "earth")
-
-        ds = api.clean.correlation_filter(
-            ds, thresh=self.parameters.correlation_threshold
-        )
 
         # Dropping the detailed configuration stats because netcdf can't save it
         for key in list(ds.attrs.keys()):
