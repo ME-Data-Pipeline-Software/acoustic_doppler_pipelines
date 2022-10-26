@@ -84,7 +84,7 @@ follow the steps to copy the template repository into to your account.
 
     If everything is set up correctly then all the tests should pass.
 
-## Opening your repository in VS Code
+## Opening your repository in VS Code (Optional)
 
 1. Open the cloned repository in VS Code. *(This repository contains default settings for
 VS Code that will make it much easier to get started quickly.)*
@@ -104,60 +104,6 @@ VS Code that will make it much easier to get started quickly.)*
     - Type `Test: Run All Tests` and select it
     - A new window pane will show up on the left of VS Code showing test status
     - Verify that all tests have passed (Green check marks)
-
-
-## Processing Data
-
-- The `runner.py` script can be run from the command line to process input data files:
-    ```
-    python runner.py <path(s) to file(s) to process>
-    ```
-    > The pipeline(s) used to process the data will depend on the specific patterns declared
-    by the `pipeline.yaml` files in each pipeline module in this repository.
-
-- You can run the example pipeline that comes bundled with this repository by running:
-    ```
-    python runner.py pipelines/example_pipeline/test/data/input/buoy.z06.00.20201201.000000.waves.csv
-    ```
-
-    If goes successfully it should output some text, ending with the line:
-    ```
-    Processing completed with 1 successes, 0 failures, and 0 skipped.
-    ```
-
-
-- The `runner.py` script can optionally take a glob pattern in addition to a filepath. E.g.,
-to process all 'csv' files in some input folder `data/to/process/` you would run:
-    ```
-    python runner.py data/to/process/*.csv
-    ```
-
-- The `--help` option can be used to show additional usage information:
-    ```
-    python runner.py --help
-    ```
-
-## Adding a new pipeline
-
-1. Use a cookiecutter template to generate a new pipeline folder. From your top level
-repository folder run:
-
-    ```bash
-    make cookies
-    ```
-
-    Follow the prompts that appear to generate a new ingestion pipeline. After completing all the
-    prompts cookiecutter will run and your new pipeline code will appear inside the
-    `pipelines/<module_name>` folder.
-
-    > The `make cookies` command is a memorable shortcut for `python templates/generate.py ingest`,
-    which itself is a wrapper around `cookiecutter templates/ingest -o pipelines`. To see more
-    information about the options available for this command run `python templates/generate.py --help`.    
-
-2.  See the README.md file inside that folder for more information on how to configure, run,
-test, and debug your pipeline.
-
-> This repository supports adding as many pipelines as you want - just repeat the steps above.
 
 
 ## Additional resources
