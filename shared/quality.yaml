@@ -9,6 +9,7 @@ managers:
           context: Coordinate variables cannot be missing.
     apply_to:
       - COORDS
+    exclude: [direction, directionIMU, beam, instrument, instrumentNortek, earth]
 
   - name: Fail if monotonic coordinates
     checker:
@@ -21,6 +22,7 @@ managers:
           context: Coordinate variables must be strictly increasing.
     apply_to:
       - COORDS
+    exclude: [direction, directionIMU, beam, instrument, instrumentNortek, earth]
 
     #---------------------------------------------------------------
   - name: Remove missing data

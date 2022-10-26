@@ -1,0 +1,124 @@
+classname: tsdat.io.retrievers.DefaultRetriever
+readers:
+  .*:
+    classname: tsdat.io.readers.ZipReader
+    parameters:
+      exclude: [".*\\.anpp", ".*\\.xml", ".*\\.~ed"]
+      open_zip_kwargs:
+        mode: rb
+      read_zip_kwargs:
+        mode: r
+      readers:
+        asv:
+          classname: pipelines.sigvm.readers.DownFacingADCPReader
+          parameters:
+            depth_offset: 0.25
+            salinity: 30
+            magnetic_declination: 15.7
+            correlation_threshold: 50
+
+coords:
+  time:
+    name: time
+  time_bt:
+    name: time_bt
+  time_echo:
+    name: time_echo
+  range:
+    name: range
+  range_echo:
+    name: range_echo
+  direction:
+    name: dir
+  directionIMU:
+    name: dirIMU
+  beam:
+    name: beam
+  instrument:
+    name: inst
+  earth:
+    name: earth
+
+data_vars:
+  velocity:
+    name: vel
+  velocity_bt:
+    name: vel_bt
+  amplitude:
+    name: amp
+  correlation:
+    name: corr
+  distance_bt:
+    name: dist_bt
+  distance_alt:
+    name: alt_dist
+  distance_ast:
+    name: ast_dist
+  depth:
+    name: depth
+  water_density:
+    name: water_density
+  heading:
+    name: heading
+  pitch:
+    name: pitch
+  roll:
+    name: roll
+  acceleration:
+    name: accel
+  magnetic_field:
+    name: mag
+  earth2inst_orientation:
+    name: orientmat
+  beam2inst_orientation:
+    name: beam2inst_orientmat
+  speed_of_sound:
+    name: c_sound
+  pressure_ast:
+    name: ast_pressure
+  offset_time_ast:
+    name: ast_offset_time
+  pressure:
+    name: pressure
+  temperature:
+    name: temp
+  transmit_energy:
+    name: xmit_energy
+  transmit_energy_bt:
+    name: xmit_energy_bt
+  transmit_energy_echo:
+    name: xmit_energy_echo
+  ensemble:
+    name: ensemble
+  ensemble_bt:
+    name: ensemble_bt
+  ensemble_echo:
+    name: ensemble_echo
+  error:
+    name: error
+  error_bt:
+    name: error_bt
+  error_echo:
+    name: error_echo
+  status:
+    name: status
+  status_bt:
+    name: status_bt
+  status_echo:
+    name: status_echo
+  status_alt:
+    name: alt_status
+  quality_alt:
+    name: alt_quality
+  quality_ast:
+    name: ast_quality
+  battery_voltage:
+    name: batt
+  active_configuration:
+    name: active_config
+  low_voltage_skip_flag:
+    name: low_volt_skip
+  boost_running_flag:
+    name: boost_running
+  telemetry_data_flag:
+    name: telemetry_data

@@ -1,0 +1,15 @@
+classname: pipelines.sigvm.pipeline.SigVM
+
+triggers:
+  - .*\.SigVM
+
+retriever:
+  path: pipelines/sigvm/config/retriever.yaml
+
+dataset:
+  path: pipelines/sigvm/config/dataset.yaml
+
+quality:
+  path: shared/quality.yaml
+storage:
+  path: shared/storage.yaml
