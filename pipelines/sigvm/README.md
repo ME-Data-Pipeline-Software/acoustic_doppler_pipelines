@@ -1,7 +1,15 @@
-# SigVM Ingestion Pipeline
+# Nortek Signature VM Ingestion Pipeline
 
-The SigVM ingestion pipeline was created from a cookiecutter template. This README file contains
-instructions for running and testing your pipeline.
+This pipeline reads in the .SigVM files output from the Nortek SignatureVM data acquisition software. It 
+is currently set up to read in water-track, bottom-track, echo sounder, altimeter and acoustic surface 
+tracking variables, all of which are automatically set on by the software. You may need to remove some 
+variables if they aren't saved, as detailed below.
+
+This README file contains instructions for running and testing this pipeline. Datafiles are saved under
+"./storage/root/data" in netCDF4 and MATLAB file formats. Velocity, amplitude and correlation plots are 
+saved in the corresponding "./storage/root/ancillary" folder.
+
+GPS data isn't currently incorporated into this reader.
 
 ## Prerequisites
 
@@ -16,22 +24,20 @@ instructions for running and testing your pipeline.
 
 ## Editing pipeline data fields
 This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
-echosounder. It also has some basic parameters set up for sampling in Sequim Bay.
+echo sounder. It also has some basic parameters set up for sampling in Sequim Bay.
 
-1. If you are not running the echosounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
+1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
 Remove all entries that have the `_echo` tag. You can do this as well for `dataset.yaml`, but this isn't critical.
 
 2. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
 
     a. "depth_offset" is the distance below the waterline that the ADCP transducers sit
 
-    b. "salinity" is the water salinity, which is probably around 30 for Sequim Bay inlet, but it varies on the 
-    tide.
+    b. "salinity" is the water salinity, which ranges around 31 for the channel into Sequim Bay
 
     c. "magnetic_declination" is the current magnetic declination. You can look this up online.
 
-3. In `dataset.yaml`, update the information under the `attrs` block to something more descriptive for the data 
-if desired.
+3. In `dataset.yaml`, update the information under the `attrs` block per the data collection specifics.
 
 4. There is one parameter listed in `shared/quality.yaml` that can be updated:
 

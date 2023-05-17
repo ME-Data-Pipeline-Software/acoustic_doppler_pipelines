@@ -1,6 +1,8 @@
 import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
+from dolfyn.adp import api
+
 from tsdat import IngestPipeline, FileSystem, get_filename
 from pipelines.sigvm.writers import MatlabWriter
 
@@ -14,10 +16,16 @@ class SigVM(IngestPipeline):
 
     def hook_customize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset before qc is applied
-        velocity_corrected = dataset["velocity"] + dataset["velocity_bt"].interp(
+
+        # Locate surface using pressure data and remove data above it
+        dataset["depth"] = dataset.h_deploy + dataset["dist_alt"]
+        api.clean.nan_beyond_surface(dataset, inplace=True)
+
+        # Correct velocity with bottom track
+        vel_corrected = dataset["vel"] + dataset["vel_bt"].interp(
             {"time_bt": dataset["time"]}, kwargs=dict(fill_value="extrapolate")
         )
-        dataset["velocity_corrected"].values = velocity_corrected.values
+        dataset["vel"].values = vel_corrected.values
 
         return dataset
 
@@ -51,7 +59,6 @@ class SigVM(IngestPipeline):
         y_max = int(ds["depth"].mean() * 1.5)
 
         with self.storage.uploadable_dir(datastream) as tmp_dir:
-
             fig, ax = plt.subplots(
                 nrows=2, ncols=1, figsize=(14, 8), constrained_layout=True
             )
@@ -59,7 +66,7 @@ class SigVM(IngestPipeline):
             velE = ax[0].pcolormesh(
                 date,
                 -ds["range"],
-                ds["velocity_corrected"][0],
+                ds["vel"][0],
                 cmap="Blues",
                 shading="nearest",
             )
@@ -73,7 +80,7 @@ class SigVM(IngestPipeline):
             velN = ax[1].pcolormesh(
                 date,
                 -ds["range"],
-                ds["velocity_corrected"][1],
+                ds["vel"][1],
                 cmap="twilight",
                 shading="nearest",
             )
@@ -89,14 +96,13 @@ class SigVM(IngestPipeline):
             plt.close(fig)
 
         with self.storage.uploadable_dir(datastream) as tmp_dir:
-
             fig, ax = plt.subplots(
                 nrows=ds.n_beams, ncols=1, figsize=(14, 8), constrained_layout=True
             )
 
             for beam in range(ds.n_beams):
                 amp = ax[beam].pcolormesh(
-                    date, -ds["range"], ds["amplitude"][beam], shading="nearest"
+                    date, -ds["range"], ds["amp"][beam], shading="nearest"
                 )
                 ax[beam].set_title("Beam " + str(beam + 1))
                 ax[beam].set_xlabel("Time (UTC)")
@@ -109,7 +115,6 @@ class SigVM(IngestPipeline):
             plt.close(fig)
 
         with self.storage.uploadable_dir(datastream) as tmp_dir:
-
             fig, ax = plt.subplots(
                 nrows=ds.n_beams, ncols=1, figsize=(14, 8), constrained_layout=True
             )
@@ -118,7 +123,7 @@ class SigVM(IngestPipeline):
                 corr = ax[beam].pcolormesh(
                     date,
                     -ds["range"],
-                    ds["correlation"][beam],
+                    ds["corr"][beam],
                     cmap="copper",
                     shading="nearest",
                 )

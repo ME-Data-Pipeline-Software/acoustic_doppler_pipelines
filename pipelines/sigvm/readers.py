@@ -60,21 +60,12 @@ class DownFacingADCPReader(DataReader):
         os.remove("data.ad2cp")
         os.remove("data.ad2cp.index")
 
+        # Set depth below water surface
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
         api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
-
-        # Locate surface using pressure data and remove data above it
-        ds["depth"] = ds.h_deploy + ds["alt_dist"]
-        ds = api.clean.nan_beyond_surface(ds)
 
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
         dolfyn.rotate2(ds, "earth")
-
-        # Dropping the detailed configuration stats because netcdf can't save it
-        for key in list(ds.attrs.keys()):
-            if "config" in key:
-                ds.attrs.pop(key)
-        ds.attrs.pop("rotate_vars")
 
         return ds

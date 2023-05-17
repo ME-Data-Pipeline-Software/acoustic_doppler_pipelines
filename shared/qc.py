@@ -28,8 +28,7 @@ class CheckCorrelation(QualityChecker):
     parameters: Parameters = Parameters()
 
     def run(self, dataset: xr.Dataset, variable_name: str) -> NDArray[np.bool8]:
-
-        mask = dataset["correlation"].values < self.parameters.correlation_threshold
+        mask = dataset["corr"].values < self.parameters.correlation_threshold
         return mask
 
 
@@ -49,7 +48,6 @@ class CheckOutliers(QualityChecker):
     parameters: Parameters = Parameters()
 
     def run(self, dataset: xr.Dataset, variable_name: str) -> NDArray[np.bool8]:
-
         n_std = self.parameters.n_std
 
         std_dev = dataset[variable_name].std(dim="time", ddof=1)
@@ -79,7 +77,6 @@ class CheckGoringNikora2002(QualityChecker):
     parameters: Parameters = Parameters()
 
     def run(self, dataset: xr.Dataset, variable_name: str) -> NDArray[np.bool8]:
-
         return GN2002(dataset[variable_name], npt=self.parameters.n_points)
 
 
@@ -116,7 +113,6 @@ class CubicSplineInterp(QualityHandler):
     def run(
         self, dataset: xr.Dataset, variable_name: str, failures: NDArray[np.bool8]
     ) -> xr.Dataset:
-
         if failures.any():
             dataset[variable_name] = clean_fill(
                 dataset[variable_name],

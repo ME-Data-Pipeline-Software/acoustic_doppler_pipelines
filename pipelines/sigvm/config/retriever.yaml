@@ -12,7 +12,7 @@ readers:
         asv:
           classname: pipelines.sigvm.readers.DownFacingADCPReader
           parameters:
-            depth_offset: 0.25
+            depth_offset: 0.5
             salinity: 30
             magnetic_declination: 15.6
 
@@ -27,31 +27,27 @@ coords:
     name: range
   range_echo:
     name: range_echo
-  direction:
+  dir:
     name: dir
-  directionIMU:
-    name: dirIMU
-  beam:
-    name: beam
-  instrument:
+  inst:
     name: inst
   earth:
     name: earth
 
 data_vars:
-  velocity:
+  vel:
     name: vel
-  velocity_bt:
+  vel_bt:
     name: vel_bt
-  amplitude:
+  amp:
     name: amp
-  correlation:
+  corr:
     name: corr
-  distance_bt:
+  dist_bt:
     name: dist_bt
-  distance_alt:
+  dist_alt:
     name: alt_dist
-  distance_ast:
+  dist_ast:
     name: ast_dist
   depth:
     name: depth
@@ -63,14 +59,8 @@ data_vars:
     name: pitch
   roll:
     name: roll
-  acceleration:
-    name: accel
-  magnetic_field:
-    name: mag
-  earth2inst_orientation:
+  orientmat:
     name: orientmat
-  beam2inst_orientation:
-    name: beam2inst_orientmat
   speed_of_sound:
     name: c_sound
   pressure_ast:
@@ -87,32 +77,16 @@ data_vars:
     name: xmit_energy_bt
   transmit_energy_echo:
     name: xmit_energy_echo
-  ensemble:
-    name: ensemble
-  ensemble_bt:
-    name: ensemble_bt
-  ensemble_echo:
-    name: ensemble_echo
   error:
     name: error
   error_bt:
     name: error_bt
   error_echo:
     name: error_echo
-  status:
-    name: status
-  status_bt:
-    name: status_bt
-  status_echo:
-    name: status_echo
-  status_alt:
-    name: alt_status
   quality_alt:
     name: alt_quality
   quality_ast:
     name: ast_quality
-  battery_voltage:
-    name: batt
   active_configuration:
     name: active_config
   low_voltage_skip_flag:

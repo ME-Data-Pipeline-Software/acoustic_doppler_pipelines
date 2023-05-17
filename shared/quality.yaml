@@ -9,7 +9,7 @@ managers:
           context: Coordinate variables cannot be missing.
     apply_to:
       - COORDS
-    exclude: [direction, directionIMU, beam, instrument, instrumentNortek, earth]
+    exclude: [dir, beam, inst, earth]
 
   - name: Fail if monotonic coordinates
     checker:
@@ -22,7 +22,7 @@ managers:
           context: Coordinate variables must be strictly increasing.
     apply_to:
       - COORDS
-    exclude: [direction, directionIMU, beam, instrument, instrumentNortek, earth]
+    exclude: [dir, beam, inst, earth]
 
     #---------------------------------------------------------------
   - name: Remove missing data
@@ -42,7 +42,6 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMin
     handlers:
-      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 2
@@ -55,7 +54,6 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMax
     handlers:
-      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 3
@@ -70,13 +68,12 @@ managers:
       parameters:
         correlation_threshold: 30
     handlers:
-      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 4
           assessment: bad
           meaning: "Value is less than correlation threshold"
-    apply_to: [velocity, velocity_corrected, correlation, amplitude]
+    apply_to: [vel, corr, amp]
 
   # - name: Goring Nikora 2002 despiking algorithm
   #   checker:
