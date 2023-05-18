@@ -1,0 +1,15 @@
+classname: pipelines.up_looking_adcp.pipeline.Signature
+
+triggers:
+  - .*\.ad2cp
+
+retriever:
+  path: pipelines/up_looking_adcp/config/retriever.yaml
+
+dataset:
+  path: pipelines/up_looking_adcp/config/dataset.yaml
+
+quality:
+  path: shared/quality.yaml
+storage:
+  path: shared/storage.yaml

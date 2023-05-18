@@ -17,7 +17,7 @@ class SigVM(IngestPipeline):
     def hook_customize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset before qc is applied
 
-        # Locate surface using pressure data and remove data above it
+        # Set depth to be the distance to the seafloor, and remove data beyond it
         dataset["depth"] = dataset.h_deploy + dataset["dist_alt"]
         api.clean.nan_beyond_surface(dataset, inplace=True)
 

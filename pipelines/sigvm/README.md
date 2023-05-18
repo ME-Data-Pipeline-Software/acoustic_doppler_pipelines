@@ -50,14 +50,14 @@ This section shows you how to run the ingest pipeline created by the template.  
 to the pipeline name you typed into the template prompt, and `{location}` refers to the location you typed into
 the template prompt.
 
-1. Make sure to be in the `SigVM_pipeline` folder
+1. Make sure to be in the `acoustic_Doppler_pipelines` folder
 
 2. Run the runner.py with your test data input file as shown below:
 
 ```bash
-cd $PATH_TO_PIPELINE/SigVM_pipeline
+cd $PATH_TO_PIPELINE/acoustic_Doppler_pipelines
 conda activate tsdat-pipelines # <-- you only need to do this the first time you start a terminal shell
 python runner.py $PATH_TO_DATA/{filename}.SigVM
 ```
 
-3. Finally, data and plots are saved in `SigVM_pipeline/storage/root/`
+3. Finally, data and plots are saved in `acoustic_Doppler_pipelines/storage/root/`

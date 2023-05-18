@@ -43,6 +43,8 @@ data_vars:
     name: amp
   corr:
     name: corr
+  echo:
+    name: echo
   dist_bt:
     name: dist_bt
   dist_alt:

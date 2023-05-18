@@ -1,0 +1,72 @@
+classname: tsdat.io.retrievers.DefaultRetriever
+readers:
+  .*:
+    classname: pipelines.up_looking_adcp.readers.UpFacingADCPReader
+    parameters:
+      depth_offset: 0.5
+      salinity: 30
+      magnetic_declination: 15.6
+
+coords:
+  time:
+    name: time
+  time_b5:
+    name: time_b5
+  range:
+    name: range
+  range_b5:
+    name: range_b5
+  dir:
+    name: dir
+  inst:
+    name: inst
+  earth:
+    name: earth
+
+data_vars:
+  vel:
+    name: vel
+  vel_b5:
+    name: vel_b5
+  amp:
+    name: amp
+  corr:
+    name: corr
+  depth:
+    name: depth
+  water_density:
+    name: water_density
+  heading:
+    name: heading
+  pitch:
+    name: pitch
+  roll:
+    name: roll
+  orientmat:
+    name: orientmat
+  speed_of_sound:
+    name: c_sound
+  pressure_ast:
+    name: ast_pressure
+  offset_time_ast:
+    name: ast_offset_time
+  pressure:
+    name: pressure
+  temperature:
+    name: temp
+  transmit_energy:
+    name: xmit_energy
+  transmit_energy_b5:
+    name: xmit_energy_bt
+  error:
+    name: error
+  error_b5:
+    name: error_bt
+  active_configuration:
+    name: active_config
+  low_voltage_skip_flag:
+    name: low_volt_skip
+  boost_running_flag:
+    name: boost_running
+  telemetry_data_flag:
+    name: telemetry_data
