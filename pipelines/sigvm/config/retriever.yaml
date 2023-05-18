@@ -9,12 +9,14 @@ readers:
       read_zip_kwargs:
         mode: r
       readers:
-        asv:
+        .*\.AD2CP:
           classname: pipelines.sigvm.readers.DownFacingADCPReader
           parameters:
             depth_offset: 0.5
             salinity: 30
             magnetic_declination: 15.6
+        .*\.nmea:
+          classname: pipelines.sigvm.readers.NMEAReader
 
 coords:
   time:
