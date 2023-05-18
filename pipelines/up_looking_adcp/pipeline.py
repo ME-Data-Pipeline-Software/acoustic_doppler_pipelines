@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from dolfyn.adp import api
 
 from tsdat import IngestPipeline, FileSystem, get_filename
-from pipelines.sigvm.writers import MatlabWriter
+from shared.writers import MatlabWriter
 
 
 class Signature(IngestPipeline):
