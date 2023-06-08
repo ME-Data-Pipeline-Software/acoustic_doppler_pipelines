@@ -9,7 +9,12 @@ This README file contains instructions for running and testing this pipeline. Da
 "./storage/root/data" in netCDF4 and MATLAB file formats. Velocity, amplitude and correlation plots are 
 saved in the corresponding "./storage/root/ancillary" folder.
 
-GPS data isn't currently incorporated into this reader.
+The Advanced Navigation Compass in the Nortek Signature VM acquisition software should be set 
+to the channel outputting NMEA (typically 9001 or 9002), not "ANPP" (Advanced Navigation Packet Protocol, 
+an AdNav custom format), which can be set from the Compass's internal html webpage. The GGA, VTG, RMC, and
+HDT sentences should be active and set to at least 2 Hz.
+
+============================================================================================================
 
 ## Prerequisites
 
@@ -20,14 +25,17 @@ GPS data isn't currently incorporated into this reader.
 > installed. If using WSL, see [this tutorial on WSL](https://tsdat.readthedocs.io/en/latest/tutorials/wsl.html) for
 > how to set up a WSL environment and attach VS Code to it.
 
-* Make sure to activate the tsdat-pipelines anaconda environment before running any commands:  `conda activate tsdat-pipelines`
+* Make sure to activate the tsdat-pipelines anaconda environment before running any 
+commands:  `conda activate tsdat-pipelines`
+
+=============================================================================================================
 
 ## Editing pipeline data fields
 This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
 echo sounder. It also has some basic parameters set up for sampling in Sequim Bay.
 
-1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
-Remove all entries that have the `_echo` tag. You can do this as well for `dataset.yaml`, but this isn't critical.
+1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml` 
+and `dataset.yaml`. Remove all entries that have the `_echo` tag. 
 
 2. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
 
@@ -41,9 +49,10 @@ Remove all entries that have the `_echo` tag. You can do this as well for `datas
 
 4. There is one parameter listed in `shared/quality.yaml` that can be updated:
 
-    a. "correlation_threshold", on line 71, is for a QC test that removes velocity data below a certain % acoustic signal 
-    correlation.
+    a. "correlation_threshold", on line 71, is for a QC test that removes velocity data below a certain 
+    percent (%) acoustic signal correlation.
 
+=============================================================================================================
 
 ## Running your pipeline
 This section shows you how to run the ingest pipeline created by the template.  Note that `{ingest-name}` refers

@@ -3,9 +3,8 @@
 [![tests](https://github.com/tsdat/pipeline-template/actions/workflows/tests.yml/badge.svg)](https://github.com/tsdat/pipeline-template/actions/workflows/tests.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This repository contains a collection of one or more `tsdat` pipelines (as found under the ``pipelines`` folder).  This
-enables related pipelines to be more easily maintained and run together.  New pipelines can be added easily via 
-the template mechanism described below.
+This repository contains a collection of one or more `tsdat` pipelines (as found under the ``pipelines`` folder) for
+acoustic Doppler instruments. Additional information for each pipeline are located in their respective README's.
 
 ## Repository Structure
 
