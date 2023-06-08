@@ -27,5 +27,4 @@ class MatlabWriter(FileWriter):
     def write(
         self, dataset: xr.Dataset, filepath: Optional[Path] = None, **kwargs: Any
     ) -> None:
-
         save_mat(dataset, str(filepath), self.parameters.dateNum)
