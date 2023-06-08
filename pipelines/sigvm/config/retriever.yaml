@@ -1,4 +1,7 @@
 classname: tsdat.io.retrievers.DefaultRetriever
+parameters:
+  merge_kwargs:
+    combine_attrs: drop_conflicts
 readers:
   .*:
     classname: tsdat.io.readers.ZipReader
@@ -9,91 +12,163 @@ readers:
       read_zip_kwargs:
         mode: r
       readers:
-        asv:
+        .*\.AD2CP:
           classname: pipelines.sigvm.readers.DownFacingADCPReader
           parameters:
             depth_offset: 0.5
             salinity: 30
             magnetic_declination: 15.6
+        .*\.nmea:
+          classname: pipelines.sigvm.readers.NMEAReader
 
 coords:
   time:
-    name: time
+    .*\.AD2CP:
+      name: time
   time_bt:
-    name: time_bt
+    .*\.AD2CP:
+      name: time_bt
   time_echo:
-    name: time_echo
+    .*\.AD2CP:
+      name: time_echo
+  time_gps:
+    .*\.nmea:
+      name: time_gps
   range:
-    name: range
+    .*\.AD2CP:
+      name: range
   range_echo:
-    name: range_echo
+    .*\.AD2CP:
+      name: range_echo
   dir:
-    name: dir
+    .*\.AD2CP:
+      name: dir
   inst:
-    name: inst
+    .*\.AD2CP:
+      name: inst
   earth:
-    name: earth
+    .*\.AD2CP:
+      name: earth
 
 data_vars:
   vel:
-    name: vel
+    .*\.AD2CP:
+      name: vel
   vel_bt:
-    name: vel_bt
+    .*\.AD2CP:
+      name: vel_bt
   amp:
-    name: amp
+    .*\.AD2CP:
+      name: amp
   corr:
-    name: corr
+    .*\.AD2CP:
+      name: corr
   echo:
-    name: echo
+    .*\.AD2CP:
+      name: echo
   dist_bt:
-    name: dist_bt
+    .*\.AD2CP:
+      name: dist_bt
   dist_alt:
-    name: alt_dist
+    .*\.AD2CP:
+      name: alt_dist
   dist_ast:
-    name: ast_dist
+    .*\.AD2CP:
+      name: ast_dist
   depth:
-    name: depth
+    .*\.AD2CP:
+      name: depth
   water_density:
-    name: water_density
+    .*\.AD2CP:
+      name: water_density
   heading:
-    name: heading
+    .*\.AD2CP:
+      name: heading
   pitch:
-    name: pitch
+    .*\.AD2CP:
+      name: pitch
   roll:
-    name: roll
+    .*\.AD2CP:
+      name: roll
   orientmat:
-    name: orientmat
+    .*\.AD2CP:
+      name: orientmat
   speed_of_sound:
-    name: c_sound
+    .*\.AD2CP:
+      name: c_sound
   pressure_ast:
-    name: ast_pressure
+    .*\.AD2CP:
+      name: ast_pressure
   offset_time_ast:
-    name: ast_offset_time
+    .*\.AD2CP:
+      name: ast_offset_time
   pressure:
-    name: pressure
+    .*\.AD2CP:
+      name: pressure
   temperature:
-    name: temp
+    .*\.AD2CP:
+      name: temp
   transmit_energy:
-    name: xmit_energy
+    .*\.AD2CP:
+      name: xmit_energy
   transmit_energy_bt:
-    name: xmit_energy_bt
+    .*\.AD2CP:
+      name: xmit_energy_bt
   transmit_energy_echo:
-    name: xmit_energy_echo
+    .*\.AD2CP:
+      name: xmit_energy_echo
   error:
-    name: error
+    .*\.AD2CP:
+      name: error
   error_bt:
-    name: error_bt
+    .*\.AD2CP:
+      name: error_bt
   error_echo:
-    name: error_echo
+    .*\.AD2CP:
+      name: error_echo
   quality_alt:
-    name: alt_quality
+    .*\.AD2CP:
+      name: alt_quality
   quality_ast:
-    name: ast_quality
+    .*\.AD2CP:
+      name: ast_quality
   active_configuration:
-    name: active_config
+    .*\.AD2CP:
+      name: active_config
   low_voltage_skip_flag:
-    name: low_volt_skip
+    .*\.AD2CP:
+      name: low_volt_skip
   boost_running_flag:
-    name: boost_running
+    .*\.AD2CP:
+      name: boost_running
   telemetry_data_flag:
-    name: telemetry_data
+    .*\.AD2CP:
+      name: telemetry_data
+
+  latitude_gps:
+    .*\.nmea:
+      name: gga_lat
+  longitude_gps:
+    .*\.nmea:
+      name: gga_lon
+  fix_gps:
+    .*\.nmea:
+      name: gga_gps_qual
+  n_sat_gps:
+    .*\.nmea:
+      name: gga_num_sats
+  elevation_gps:
+    .*\.nmea:
+      name: gga_alt
+  hdop_gps:
+    .*\.nmea:
+      name: gga_hdop
+  dir_over_grnd_gps:
+    .*\.nmea:
+      name: vtg_course_deg
+  speed_over_grnd_gps:
+    .*\.nmea:
+      name: vtg_spd_over_grnd_kt
+  heading_gps:
+    .*\.nmea:
+      name: hdt_heading
