@@ -22,7 +22,7 @@ def test_sigvm_pipeline_with_nmea():
     pipeline = config.instantiate_pipeline()
 
     test_file = "pipelines/sigvm/test/data/input/102582_20230517T210850UTC.SigVM"
-    expected_file = "pipelines/sigvm/test/data/expected/asv.sigvm.b1.20220518.212846.nc"
+    expected_file = "pipelines/sigvm/test/data/expected/asv.sigvm.b1.20230517.210854.nc"
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore

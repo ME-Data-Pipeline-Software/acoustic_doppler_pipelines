@@ -54,22 +54,34 @@ class DownFacingADCPReader(DataReader):
 
         # dolfyn requires a file, not a bytesIO object
         buffer: BytesIO = input_key  # type: ignore
+
+        # HACK Trim certain SigVM files with extra header lines - this will likely change
+        if "GETCLOCKSTR" not in str(buffer.getvalue()[:222]):
+            buffer_data = buffer.getvalue()[212:]  # Should get firmware version
+        else:
+            buffer_data = buffer.getvalue()
+
+        # Save temp file to read with dolfyn
         with open("data.ad2cp", "wb") as f:
-            f.write(buffer.getvalue())
+            f.write(buffer_data)
 
         ds = dolfyn.io.nortek2.read_signature("data.ad2cp", rebuild_index=True)
 
-        # Remove extra files
+        # Remove temp files
         os.remove("data.ad2cp")
         os.remove("data.ad2cp.index")
 
         # Set depth below water surface
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
         api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
+        ds["depth"] = ds.h_deploy + ds["alt_dist"]
 
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
         dolfyn.rotate2(ds, "earth")
+
+        # HACK: Add time_gps since tsdat can't add extra coordinates
+        ds = ds.assign_coords({"time_gps": ds["time"]})
 
         return ds
 
@@ -158,6 +170,6 @@ class NMEAReader(DataReader):
             vtg_time=ds.rmc_time,
             hdt_time=ds.rmc_time,
             method="nearest",
-        ).rename({"rmc_time": "time"})
+        ).rename({"rmc_time": "time_gps"})
 
         return ds

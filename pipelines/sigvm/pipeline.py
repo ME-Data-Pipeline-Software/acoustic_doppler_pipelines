@@ -18,11 +18,10 @@ class SigVM(IngestPipeline):
         # (Optional) Use this hook to modify the dataset before qc is applied
 
         # Set depth to be the distance to the seafloor, and remove data beyond it
-        dataset["depth"] = dataset.h_deploy + dataset["dist_alt"]
         api.clean.nan_beyond_surface(dataset, inplace=True)
 
         # Correct velocity with bottom track
-        vel_corrected = dataset["vel"] + dataset["vel_bt"].interp(
+        vel_corrected = dataset["vel"] - dataset["vel_bt"].interp(
             {"time_bt": dataset["time"]}, kwargs=dict(fill_value="extrapolate")
         )
         dataset["vel"].values = vel_corrected.values
@@ -67,7 +66,7 @@ class SigVM(IngestPipeline):
                 date,
                 -ds["range"],
                 ds["vel"][0],
-                cmap="Blues",
+                cmap="coolwarm",
                 shading="nearest",
             )
             ax[0].plot(date, -ds["depth"])
@@ -81,7 +80,7 @@ class SigVM(IngestPipeline):
                 date,
                 -ds["range"],
                 ds["vel"][1],
-                cmap="twilight",
+                cmap="coolwarm",
                 shading="nearest",
             )
             ax[1].plot(date, -ds["depth"])
