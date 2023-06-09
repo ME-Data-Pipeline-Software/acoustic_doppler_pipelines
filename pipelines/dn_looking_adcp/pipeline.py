@@ -1,3 +1,4 @@
+import numpy as np
 import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,6 +18,11 @@ class DnLookingADCP(IngestPipeline):
 
     def hook_customize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset before qc is applied
+
+        # ADCP clock appears to be 1 min ahead
+        dataset = dataset.assign_coords(
+            {"time": dataset["time"] - np.timedelta64(1, "m")}
+        )
 
         # Set depth to be the distance to the seafloor, and remove data beyond it
         api.clean.nan_beyond_surface(dataset, inplace=True)
@@ -57,7 +63,7 @@ class DnLookingADCP(IngestPipeline):
         plt.style.use("default")  # clear any styles that were set before
         plt.style.use("shared/styling.mplstyle")
 
-        y_max = int(ds["depth"].mean() * 1.75)
+        y_max = 6
 
         with self.storage.uploadable_dir(datastream) as tmp_dir:
             fig, ax = plt.subplots(

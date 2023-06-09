@@ -28,7 +28,13 @@ class CheckCorrelation(QualityChecker):
     parameters: Parameters = Parameters()
 
     def run(self, dataset: xr.Dataset, variable_name: str) -> NDArray[np.bool8]:
+        # Get low correlation mask
         mask = dataset["corr"].values < self.parameters.correlation_threshold
+
+        # Combine for 1D velocity variables
+        if len(dataset[variable_name].shape) == 1:
+            mask = mask.sum(axis=-1).astype(bool)
+
         return mask
 
 
