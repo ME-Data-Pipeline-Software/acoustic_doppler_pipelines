@@ -20,6 +20,10 @@ class UpLookingADCP(IngestPipeline):
         # Locate surface using pressure data and remove data beyond it
         api.clean.nan_beyond_surface(dataset, inplace=True)
 
+        # Speed and Direction
+        dataset["U_mag"].values = dataset.velds.U_mag
+        dataset["U_dir"].values = dataset.velds.U_dir
+
         return dataset
 
     def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
@@ -66,7 +70,7 @@ class UpLookingADCP(IngestPipeline):
             ax[0].plot(date, ds["depth"])
             ax[0].set(xlabel="Time (UTC)", ylabel=r"Range [m]", ylim=(0, y_max))
             add_colorbar(ax[0], velE, r"Velocity East [m/s]")
-            velE.set_clim(-3, 3)
+            # velE.set_clim(-3, 3)
 
             velN = ax[1].pcolormesh(
                 date,
@@ -78,7 +82,7 @@ class UpLookingADCP(IngestPipeline):
             ax[1].plot(date, ds["depth"])
             ax[1].set(xlabel="Time (UTC)", ylabel=r"Range [m]", ylim=(0, y_max))
             add_colorbar(ax[1], velN, r"Velocity North [m/s]")
-            velN.set_clim(-3, 3)
+            # velN.set_clim(-3, 3)
 
             plot_file = get_filename(ds, title="current", extension="png")
             fig.savefig(tmp_dir / plot_file)

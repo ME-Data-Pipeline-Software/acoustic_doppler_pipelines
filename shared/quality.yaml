@@ -42,6 +42,7 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMin
     handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 2
@@ -54,6 +55,7 @@ managers:
     checker:
       classname: tsdat.qc.checkers.CheckValidMax
     handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 3
@@ -68,6 +70,7 @@ managers:
       parameters:
         correlation_threshold: 30
     handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
           bit: 4

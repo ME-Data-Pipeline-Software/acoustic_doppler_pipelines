@@ -147,8 +147,8 @@ data_vars:
     attrs:
       long_name: Sea Water Velocity
       units: m/s
-      valid_min: -8
-      valid_max: 8
+      valid_min: -5
+      valid_max: 5
   amp:
     dims: [beam, range, time]
     dtype: float32
@@ -171,6 +171,23 @@ data_vars:
       standard_name: echo_sounder_signal_intensity
       units: dB
 
+  U_mag:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Speed
+      standard_name: sea_water_speed
+      units: m/s
+      valid_min: -5
+      valid_max: 5
+  U_dir:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Direction
+      standard_name: sea_water_to_direction
+      units: degrees_CW_from_streamwise
+
   vel_bt:
     dims: [dir, time_bt]
     dtype: float32
@@ -178,8 +195,8 @@ data_vars:
       long_name: Bottom Track Velocity
       standard_name: platform_velocity
       units: m/s
-      valid_min: -5
-      valid_max: 5
+      valid_min: -10
+      valid_max: 10
   dist_bt:
     dims: [beam, time_bt]
     dtype: float32

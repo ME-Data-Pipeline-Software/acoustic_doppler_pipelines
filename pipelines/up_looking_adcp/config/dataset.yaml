@@ -128,8 +128,8 @@ data_vars:
     attrs:
       long_name: Sea Water Velocity
       units: m/s
-      valid_min: -8
-      valid_max: 8
+      valid_min: -5
+      valid_max: 5
   vel_b5:
     dims: [dir, time_b5]
     dtype: float32
@@ -153,6 +153,22 @@ data_vars:
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
       units: "%"
+  U_mag:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Speed
+      standard_name: sea_water_speed
+      units: m/s
+      valid_min: -5
+      valid_max: 5
+  U_dir:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Direction
+      standard_name: sea_water_to_direction
+      units: degrees_CW_from_streamwise
   depth:
     dims: [time]
     dtype: float32

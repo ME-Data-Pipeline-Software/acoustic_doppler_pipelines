@@ -26,6 +26,10 @@ class SigVM(IngestPipeline):
         )
         dataset["vel"].values = vel_corrected.values
 
+        # Speed and Direction
+        dataset["U_mag"].values = dataset.velds.U_mag
+        dataset["U_dir"].values = dataset.velds.U_dir
+
         return dataset
 
     def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
@@ -139,7 +143,20 @@ class SigVM(IngestPipeline):
         with self.storage.uploadable_dir(datastream) as tmp_dir:
             fig, ax = plt.subplots()
 
-            ax.scatter(ds["longitude_gps"], ds["latitude_gps"])
+            h = ax.scatter(
+                ds["longitude_gps"],
+                ds["latitude_gps"],
+                c=ds["U_mag"].mean("range").interp(time=ds["time_gps"]).values,
+                cmap="Blues",
+                alpha=0.7,
+            )
+            fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
+            ax.quiver(
+                ds["longitude_gps"],
+                ds["latitude_gps"],
+                ds["vel"][0].mean("range").interp(time=ds["time_gps"]).values,
+                ds["vel"][1].mean("range").interp(time=ds["time_gps"]).values,
+            )
 
             ax.set_title("")  # Remove bogus title created by xarray
             ax.set_ylabel("Latitude [deg N]")

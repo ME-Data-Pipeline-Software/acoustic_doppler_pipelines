@@ -10,8 +10,16 @@ readers:
 coords:
   time:
     name: time
+    data_converters:
+      - classname: tsdat.io.converters.StringToDatetime
+        format: "%Y-%m-%d %H:%M:%S"
+        timezone: US/Alaska
   # time_b5:
   #   name: time_b5
+  #   data_converters:
+  #     - classname: tsdat.io.converters.StringToDatetime
+  #       format: "%Y-%m-%d %H:%M:%S"
+  #       timezone: US/Alaska
   time_gps:
     name: time_gps
   range:

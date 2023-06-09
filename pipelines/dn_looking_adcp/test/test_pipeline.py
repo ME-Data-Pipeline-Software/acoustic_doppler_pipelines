@@ -9,7 +9,7 @@ def test_dnlookingADCP_pipeline():
     pipeline = config.instantiate_pipeline()
 
     test_file = "pipelines/dn_looking_adcp/test/data/input/winriver02_transect.PD0"
-    expected_file = "pipelines/dn_looking_adcp/test/data/expected/pnnl.trdi1200.b1.20100923.130930.nc"
+    expected_file = "pipelines/dn_looking_adcp/test/data/expected/pnnl.trdi1200.b1.20100923.210930.nc"
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore

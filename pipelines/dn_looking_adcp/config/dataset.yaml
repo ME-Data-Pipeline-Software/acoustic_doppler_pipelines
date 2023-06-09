@@ -72,6 +72,7 @@ coords:
     dims: [time_gps]
     dtype: datetime64[ns]
     attrs:
+      timezone: UTC
       units: Seconds since 1970-01-01 00:00:00
       coverage_content_type: coordinate
       long_name: Time
@@ -130,8 +131,8 @@ data_vars:
       units: m s-1
       long_name: Sea Water Velocity
       coverage_content_type: physicalMeasurement
-      valid_min: -8
-      valid_max: 8
+      valid_min: -5
+      valid_max: 5
   # vel_b5:
   #   dims: [dir, time_b5]
   #   dtype: float32
@@ -166,6 +167,23 @@ data_vars:
       standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
       coverage_content_type: physicalMeasurement
 
+  U_mag:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Speed
+      standard_name: sea_water_speed
+      units: m/s
+      valid_min: -5
+      valid_max: 5
+  U_dir:
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Direction
+      standard_name: sea_water_to_direction
+      units: degrees_CW_from_streamwise
+
   dist_bt:
     dims: [beam, time]
     dtype: float32
@@ -182,6 +200,8 @@ data_vars:
       long_name: Bottom Track Velocity
       standard_name: platform_velocity
       coverage_content_type: physicalMeasurement
+      valid_min: -10
+      valid_max: 10
   corr_bt:
     dims: [beam, time]
     dtype: uint8
