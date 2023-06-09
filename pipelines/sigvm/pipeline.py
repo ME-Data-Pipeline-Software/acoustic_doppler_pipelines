@@ -135,3 +135,16 @@ class SigVM(IngestPipeline):
             plot_file = get_filename(ds, title="correlation", extension="png")
             fig.savefig(tmp_dir / plot_file)
             plt.close(fig)
+
+        with self.storage.uploadable_dir(datastream) as tmp_dir:
+            fig, ax = plt.subplots()
+
+            ax.scatter(ds["longitude_gps"], ds["latitude_gps"])
+
+            ax.set_title("")  # Remove bogus title created by xarray
+            ax.set_ylabel("Latitude [deg N]")
+            ax.set_xlabel("Longitude [deg E]")
+
+            plot_file = get_filename(ds, title="location", extension="png")
+            fig.savefig(tmp_dir / plot_file)
+            plt.close(fig)
