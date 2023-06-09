@@ -1,0 +1,115 @@
+classname: tsdat.io.retrievers.DefaultRetriever
+readers:
+  .*:
+    classname: pipelines.dn_looking_adcp.readers.DnFacingADCPReader
+    parameters:
+      depth_offset: 0.5
+      salinity: 30
+      magnetic_declination: 15.6
+
+coords:
+  time:
+    name: time
+  # time_b5:
+  #   name: time_b5
+  time_gps:
+    name: time_gps
+  range:
+    name: range
+  # range_b5:
+  #   name: range_b5
+  dir:
+    name: dir
+  inst:
+    name: inst
+  earth:
+    name: earth
+
+data_vars:
+  vel:
+    name: vel
+  # vel_b5:
+  #   name: vel_b5
+  amp:
+    name: amp
+  corr:
+    name: corr
+  prcnt_gd:
+    name: prcnt_gd
+
+  vel_bt:
+    name: vel_bt
+  corr_bt:
+    name: corr_bt
+  amp_bt:
+    name: amp_bt
+  prcnt_gd_bt:
+    name: prcnt_gd_bt
+  dist_bt:
+    name: dist_bt
+
+  depth:
+    name: depth
+  water_density:
+    name: water_density
+  heading:
+    name: heading
+  pitch:
+    name: pitch
+  roll:
+    name: roll
+  orientmat:
+    name: orientmat
+  beam2inst_orientmat:
+    name: beam2inst_orientmat
+  speed_of_sound:
+    name: c_sound
+  pressure:
+    name: pressure
+  temperature:
+    name: temp
+  salinity:
+    name: salinity
+  # transmit_energy:
+  #   name: xmit_energy
+  # transmit_energy_b5:
+  #   name: xmit_energy_bt
+  number:
+    name: number
+  builtin_test_fail:
+    name: builtin_test_fail
+  min_preping_wait:
+    name: min_preping_wait
+  # error:
+  #   name: error
+  # error_b5:
+  #   name: error_b5
+  # active_configuration:
+  #   name: active_config
+  # low_voltage_skip_flag:
+  #   name: low_volt_skip
+  # boost_running_flag:
+  #   name: boost_running
+  # telemetry_data_flag:
+  #   name: telemetry_data
+
+  latitude_gps:
+    name: latitude_gps
+  longitude_gps:
+    name: longitude_gps
+  fix_gps:
+    name: fix_gps
+  n_sat_gps:
+    name: n_sat_gps
+  hdop_gps:
+    name: hdop_gps
+  elevation_gps:
+    name: elevation_gps
+  rtk_age_gps:
+    name: rtk_age_gps
+  speed_over_grnd_gps:
+    name: speed_over_grnd_gps
+  dir_over_grnd_gps:
+    name: dir_over_grnd_gps
+  hdwtime_gps:
+    name: hdwtime_gps

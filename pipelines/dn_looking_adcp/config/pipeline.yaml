@@ -1,0 +1,15 @@
+classname: pipelines.dn_looking_adcp.pipeline.DnLookingADCP
+
+triggers:
+  - .*\.PD0
+
+retriever:
+  path: pipelines/dn_looking_adcp/config/retriever.yaml
+
+dataset:
+  path: pipelines/dn_looking_adcp/config/dataset.yaml
+
+quality:
+  path: shared/quality.yaml
+storage:
+  path: shared/storage.yaml
