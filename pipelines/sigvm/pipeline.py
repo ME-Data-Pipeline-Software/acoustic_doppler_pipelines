@@ -1,9 +1,10 @@
 import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 from dolfyn.adp import api
-
 from tsdat import IngestPipeline, FileSystem, get_filename
+
 from shared.writers import MatlabWriter
 
 
@@ -161,6 +162,8 @@ class SigVM(IngestPipeline):
             ax.set_title("")  # Remove bogus title created by xarray
             ax.set_ylabel("Latitude [deg N]")
             ax.set_xlabel("Longitude [deg E]")
+            ax.xaxis.set_major_formatter(FormatStrFormatter("%.4f"))
+            ax.yaxis.set_major_formatter(FormatStrFormatter("%.4f"))
 
             plot_file = get_filename(ds, title="location", extension="png")
             fig.savefig(tmp_dir / plot_file)
