@@ -12,7 +12,7 @@ import dolfyn
 from dolfyn.adp import api
 
 
-class DownFacingADCPReader(DataReader):
+class SigVMReader(DataReader):
     """---------------------------------------------------------------------------------
     Custom DataReader that can be used to read data from a specific format.
 

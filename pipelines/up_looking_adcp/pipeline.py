@@ -7,7 +7,7 @@ from tsdat import IngestPipeline, FileSystem, get_filename
 from shared.writers import MatlabWriter
 
 
-class Signature(IngestPipeline):
+class UpLookingADCP(IngestPipeline):
     """---------------------------------------------------------------------------------
     This is an example ingestion pipeline meant to demonstrate how one might set up a
     pipeline using this template repository.

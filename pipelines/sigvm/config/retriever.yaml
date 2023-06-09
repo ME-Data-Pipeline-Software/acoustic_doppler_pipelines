@@ -13,7 +13,7 @@ readers:
         mode: r
       readers:
         .*\.AD2CP:
-          classname: pipelines.sigvm.readers.DownFacingADCPReader
+          classname: pipelines.sigvm.readers.SigVMReader
           parameters:
             depth_offset: 0.5
             salinity: 30
@@ -54,9 +54,6 @@ data_vars:
   vel:
     .*\.AD2CP:
       name: vel
-  vel_bt:
-    .*\.AD2CP:
-      name: vel_bt
   amp:
     .*\.AD2CP:
       name: amp
@@ -66,15 +63,36 @@ data_vars:
   echo:
     .*\.AD2CP:
       name: echo
+
+  vel_bt:
+    .*\.AD2CP:
+      name: vel_bt
   dist_bt:
     .*\.AD2CP:
       name: dist_bt
+  fom_bt:
+    .*\.AD2CP:
+      name: fom_bt
+
   dist_alt:
     .*\.AD2CP:
       name: alt_dist
+  quality_alt:
+    .*\.AD2CP:
+      name: alt_quality
   dist_ast:
     .*\.AD2CP:
       name: ast_dist
+  pressure_ast:
+    .*\.AD2CP:
+      name: ast_pressure
+  offset_time_ast:
+    .*\.AD2CP:
+      name: ast_offset_time
+  quality_ast:
+    .*\.AD2CP:
+      name: ast_quality
+
   depth:
     .*\.AD2CP:
       name: depth
@@ -93,21 +111,19 @@ data_vars:
   orientmat:
     .*\.AD2CP:
       name: orientmat
+  beam2inst_orientmat:
+    .*\.AD2CP:
+      name: beam2inst_orientmat
   speed_of_sound:
     .*\.AD2CP:
       name: c_sound
-  pressure_ast:
-    .*\.AD2CP:
-      name: ast_pressure
-  offset_time_ast:
-    .*\.AD2CP:
-      name: ast_offset_time
   pressure:
     .*\.AD2CP:
       name: pressure
   temperature:
     .*\.AD2CP:
       name: temp
+
   transmit_energy:
     .*\.AD2CP:
       name: xmit_energy
@@ -126,12 +142,25 @@ data_vars:
   error_echo:
     .*\.AD2CP:
       name: error_echo
-  quality_alt:
+  ensemble:
     .*\.AD2CP:
-      name: alt_quality
-  quality_ast:
+      name: ensemble
+  ensemble_bt:
     .*\.AD2CP:
-      name: ast_quality
+      name: ensemble_bt
+  ensemble_echo:
+    .*\.AD2CP:
+      name: ensemble_echo
+  status:
+    .*\.AD2CP:
+      name: status
+  status_bt:
+    .*\.AD2CP:
+      name: status_bt
+  status_echo:
+    .*\.AD2CP:
+      name: status_echo
+
   active_configuration:
     .*\.AD2CP:
       name: active_config

@@ -145,26 +145,16 @@ data_vars:
     dims: [dir, range, time]
     dtype: float32
     attrs:
-      long_name: Water Velocity
-      standard_name: velocity_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      long_name: Sea Water Velocity
       units: m/s
       valid_min: -8
       valid_max: 8
-  vel_bt:
-    dims: [dir, time_bt]
-    dtype: float32
-    attrs:
-      long_name: Bottom Track Velocity
-      standard_name: platform_velocity_from_bottom_track
-      units: m/s
-      valid_min: -5
-      valid_max: 5
   amp:
     dims: [beam, range, time]
     dtype: float32
     attrs:
       long_name: Acoustic Signal Amplitude
-      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_sensor_in_sea_water
       units: dB
   corr:
     dims: [beam, range, time]
@@ -180,6 +170,16 @@ data_vars:
       long_name: Echo Sounder
       standard_name: echo_sounder_signal_intensity
       units: dB
+
+  vel_bt:
+    dims: [dir, time_bt]
+    dtype: float32
+    attrs:
+      long_name: Bottom Track Velocity
+      standard_name: platform_velocity
+      units: m/s
+      valid_min: -5
+      valid_max: 5
   dist_bt:
     dims: [beam, time_bt]
     dtype: float32
@@ -187,6 +187,14 @@ data_vars:
       long_name: Bottom Track Depth
       standard_name: depth_below_platform
       units: m
+  fom_bt:
+    dims: [dir, time_bt]
+    dtype: uint16
+    attrs:
+      units: "1"
+      long_name: Figure of Merit
+      coverage_content_type: physicalMeasurement
+
   dist_alt:
     dims: [time]
     dtype: float
@@ -194,20 +202,43 @@ data_vars:
       long_name: Altimeter Range
       standard_name: altimeter_range
       units: m
+  quality_alt:
+    dims: [time]
+    dtype: int
+    attrs:
+      long_name: Altimeter Quality
+      units: "dB"
   dist_ast:
     dims: [time]
     dtype: float
     attrs:
       long_name: Acoustic Surface Tracking Range
       units: m
+  pressure_ast:
+    dims: [time]
+    dtype: float
+    attrs:
+      long_name: Acoustic Surface Tracking Pressure
+      standard_name: sea_water_pressure
+      units: dbar
+  offset_time_ast:
+    dims: [time]
+    dtype: float
+    attrs:
+      description: Acoustic surface tracking offset from `time`
+      units: s
+  quality_ast:
+    dims: [time]
+    dtype: int
+    attrs:
+      long_name: Acoustic Surface Tracking Quality
+      units: "dB"
+
   depth:
     dims: [time]
     dtype: float32
     attrs:
-      description:
-        "Seafloor depth below water surface, calculated from temperature, salinity and
-        pressure"
-      long_name: Depth to Seafloor
+      long_name: Instrument Depth
       standard_name: depth
       units: m
       positive: down
@@ -217,7 +248,8 @@ data_vars:
     attrs:
       long_name: Water Density
       standard_name: sea_water_density
-      description: "Water density according to UNESCO 1981 equation of state"
+      description:
+        "Water density from linear approximation of sea water equation of state"
       units: kg/m^3
   heading:
     dims: [time]
@@ -254,7 +286,7 @@ data_vars:
       long_name: Orientation Matrix
       units: "1"
   beam2inst_orientmat:
-    dims: [beam, instrumentNortek]
+    dims: [beam, inst]
     dtype: float
     attrs:
       description: "Beam to instrument orientation matrix"
@@ -266,19 +298,6 @@ data_vars:
       long_name: Speed of Sound
       standard_name: speed_of_sound_in_sea_water
       units: m/s
-  pressure_ast:
-    dims: [time]
-    dtype: float
-    attrs:
-      long_name: Acoustic Surface Tracking Pressure
-      standard_name: sea_water_pressure
-      units: dbar
-  offset_time_ast:
-    dims: [time]
-    dtype: float
-    attrs:
-      description: Acoustic surface tracking offset from `time`
-      units: s
   pressure:
     dims: [time]
     dtype: float32
@@ -293,6 +312,7 @@ data_vars:
       long_name: Temperature
       standard_name: sea_water_temperature
       units: degC
+
   transmit_energy:
     dims: [time]
     dtype: int
@@ -332,18 +352,46 @@ data_vars:
     attrs:
       long_name: Echo Sounder Error Code
       units: "1"
-  quality_alt:
+  ensemble:
     dims: [time]
-    dtype: int
+    dtype: uint32
     attrs:
-      long_name: Altimeter Quality
-      units: "dB"
-  quality_ast:
+      units: count
+      long_name: Ensemble Number
+      standard_name: number_of_observations
+  ensemble_bt:
+    dims: [time_bt]
+    dtype: uint32
+    attrs:
+      units: count
+      long_name: Bottom Track Ensemble Number
+      standard_name: number_of_observations
+  ensemble_echo:
+    dims: [time_echo]
+    dtype: uint32
+    attrs:
+      units: count
+      long_name: Echo Sounder Ensemble Number
+      standard_name: number_of_observations
+  status:
     dims: [time]
-    dtype: int
+    dtype: uint32
     attrs:
-      long_name: Acoustic Surface Tracking Quality
-      units: "dB"
+      units: "1"
+      long_name: Status Code
+  status_bt:
+    dims: [time_bt]
+    dtype: uint32
+    attrs:
+      units: "1"
+      long_name: Bottom Track Status Code
+  status_echo:
+    dims: [time_echo]
+    dtype: uint32
+    attrs:
+      units: "1"
+      long_name: Echo Sounder Status Code
+
   active_configuration:
     dims: [time]
     dtype: int
@@ -423,7 +471,7 @@ data_vars:
     dtype: float32
     attrs:
       units: degree
-      long_name: Platform Direction
+      long_name: Platform Course
       standard_name: platform_course
   heading_gps:
     dims: [time_gps]

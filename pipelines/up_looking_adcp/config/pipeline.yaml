@@ -1,4 +1,4 @@
-classname: pipelines.up_looking_adcp.pipeline.Signature
+classname: pipelines.up_looking_adcp.pipeline.UpLookingADCP
 
 triggers:
   - .*\.ad2cp

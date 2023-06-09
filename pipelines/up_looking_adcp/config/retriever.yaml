@@ -22,6 +22,8 @@ coords:
     name: inst
   earth:
     name: earth
+  q:
+    name: q
 
 data_vars:
   vel:
@@ -42,14 +44,12 @@ data_vars:
     name: pitch
   roll:
     name: roll
+  quaternions:
+    name: quaternions
   orientmat:
     name: orientmat
   speed_of_sound:
     name: c_sound
-  pressure_ast:
-    name: ast_pressure
-  offset_time_ast:
-    name: ast_offset_time
   pressure:
     name: pressure
   temperature:
@@ -57,11 +57,19 @@ data_vars:
   transmit_energy:
     name: xmit_energy
   transmit_energy_b5:
-    name: xmit_energy_bt
+    name: xmit_energy_b5
   error:
     name: error
   error_b5:
-    name: error_bt
+    name: error_b5
+  status:
+    name: status
+  ensemble:
+    name: ensemble
+  status_b5:
+    name: status_b5
+  ensemble_b5:
+    name: ensemble_b5
   active_configuration:
     name: active_config
   low_voltage_skip_flag:

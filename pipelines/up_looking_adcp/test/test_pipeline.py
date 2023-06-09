@@ -9,9 +9,7 @@ def test_uplookingADCP_pipeline():
     pipeline = config.instantiate_pipeline()
 
     test_file = "pipelines/up_looking_adcp/test/data/input/Sig1000_tidal.ad2cp"
-    expected_file = (
-        "pipelines/up_looking_adcp/test/data/expected/asv.sig1000.b1.20200815.002000.nc"
-    )
+    expected_file = "pipelines/up_looking_adcp/test/data/expected/pnnl.sig1000.b1.20200815.002000.nc"
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore

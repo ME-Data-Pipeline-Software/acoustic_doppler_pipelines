@@ -33,7 +33,7 @@ attrs:
   platform_vocabulary: https://mmisw.org/ont/ioos/platform
   instrument: In Situ/Laboratory Instruments > Current/Wind Meters > Current Meters
   instrument_vocabulary: GCMD Instrument Keywords #https://gcmd.earthdata.nasa.gov/KeywordViewer/
-  make_model: Nortek Signature2000
+  make_model: Nortek Signature1000
 
   # Geospatial and Time
   geospatial_bounds: Point ((48.0804 -123.0449))
@@ -43,7 +43,7 @@ attrs:
   time_coverage_resolution: "00:00:00.500"
 
   # TSDAT specific parameters
-  location_id: asv
+  location_id: pnnl
   dataset_name: sig1000
   data_level: b1
 
@@ -113,14 +113,20 @@ coords:
       long_name: Earth Reference Frame
       units: "1"
       coverage_content_type: coordinate
+  q:
+    dims: [q]
+    dtype: str
+    attrs:
+      units: "1"
+      long_name: Quaternion Vector Components
+      coverage_content_type: coordinate
 
 data_vars:
   vel:
     dims: [dir, range, time]
     dtype: float32
     attrs:
-      long_name: Water Velocity
-      standard_name: velocity_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      long_name: Sea Water Velocity
       units: m/s
       valid_min: -8
       valid_max: 8
@@ -138,7 +144,7 @@ data_vars:
     dtype: float32
     attrs:
       long_name: Acoustic Signal Amplitude
-      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_sensor_in_sea_water
       units: dB
   corr:
     dims: [beam, range, time]
@@ -151,10 +157,7 @@ data_vars:
     dims: [time]
     dtype: float32
     attrs:
-      description:
-        "Seafloor depth below water surface, calculated from temperature, salinity and
-        pressure"
-      long_name: Depth to Seafloor
+      long_name: Water Depth
       standard_name: depth
       units: m
       positive: down
@@ -164,7 +167,8 @@ data_vars:
     attrs:
       long_name: Water Density
       standard_name: sea_water_density
-      description: "Water density according to UNESCO 1981 equation of state"
+      description:
+        "Water density from linear approximation of sea water equation of state"
       units: kg/m^3
   heading:
     dims: [time]
@@ -193,6 +197,12 @@ data_vars:
       units: deg
       valid_min: -180
       valid_max: 180
+  quaternions:
+    dims: [q, time]
+    dtype: float32
+    attrs:
+      units: "1"
+      long_name: Quaternions
   orientmat:
     dims: [earth, inst, time]
     dtype: float32
@@ -253,6 +263,32 @@ data_vars:
     attrs:
       long_name: Beam 5 Error Code
       units: "1"
+  status:
+    dims: [time]
+    dtype: uint32
+    attrs:
+      units: "1"
+      long_name: Status Code
+  status_b5:
+    dims: [time_b5]
+    dtype: uint32
+    attrs:
+      units: "1"
+      long_name: Beam 5 Status Code
+  ensemble:
+    dims: [time]
+    dtype: uint32
+    attrs:
+      units: count
+      long_name: Ensemble Number
+      standard_name: number_of_observations
+  ensemble_b5:
+    dims: [time_b5]
+    dtype: uint32
+    attrs:
+      units: count
+      long_name: Beam 5 Ensemble Number
+      standard_name: number_of_observations
   active_configuration:
     dims: [time]
     dtype: int

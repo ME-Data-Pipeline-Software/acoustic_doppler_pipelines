@@ -25,8 +25,8 @@ commands:  `conda activate tsdat-pipelines`
 ============================================================================================================
 
 ## Editing pipeline data fields
-This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
-echo sounder. It also has some basic parameters set up for sampling in Sequim Bay.
+This pipeline is set up to handle data created by a Nortek Signature1000. It also has some basic parameters 
+set up for sampling in Sequim Bay.
 
 1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
 Remove all entries that have the `_echo` tag. You can do this as well for `dataset.yaml`, but this isn't critical.
