@@ -182,7 +182,7 @@ data_vars:
     attrs:
       long_name: Water Direction
       standard_name: sea_water_to_direction
-      units: degrees_CW_from_streamwise
+      units: degrees_CW_from_North
 
   dist_bt:
     dims: [beam, time]

@@ -149,7 +149,7 @@ class SigVM(IngestPipeline):
                 ds["latitude_gps"],
                 c=ds["U_mag"].mean("range").interp(time=ds["time_gps"]).values,
                 cmap="Blues",
-                alpha=0.7,
+                s=100,
             )
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
             ax.quiver(
