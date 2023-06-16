@@ -1,4 +1,4 @@
-# Up-looking ADCP Ingestion Pipeline
+# Down-looking ADCP Ingestion Pipeline
 
 This pipeline reads in binary files output from a vessel-mounted ADCP. It 
 is currently set up to read in water-track data from a 4 beam ADCP. You may need to add 
