@@ -1,5 +1,4 @@
 tsdat>=0.7.4
-cmocean
 typer
 mhkit
 pynmea2
