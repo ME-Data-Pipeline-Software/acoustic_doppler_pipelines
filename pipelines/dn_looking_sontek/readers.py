@@ -6,8 +6,6 @@ import xarray as xr
 from tsdat import DataReader
 
 
-# Implement or remove the CustomDataReader. If implementing it, please
-# rename it to appropriately reflect the type of data it is reading.
 class ReadSontek(DataReader):
     """---------------------------------------------------------------------------------
     Custom DataReader that can be used to read data from a specific format.

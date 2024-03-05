@@ -3,8 +3,8 @@ import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
-from dolfyn.adp import api
-from tsdat import IngestPipeline, FileSystem, get_filename
+from mhkit.dolfyn.adp import api
+from tsdat import IngestPipeline, FileSystem
 
 from shared.writers import MatlabWriter
 
@@ -57,15 +57,12 @@ class DnLookingADCP(IngestPipeline):
             cb.ax.minorticks_off()
             return cb
 
-        datastream: str = self.dataset_config.attrs.datastream
         date = pd.to_datetime(ds["time"].values)
 
-        plt.style.use("default")  # clear any styles that were set before
-        plt.style.use("shared/styling.mplstyle")
+        y_max = ds["depth"].max() * 1.1
 
-        y_max = 6
-
-        with self.storage.uploadable_dir(datastream) as tmp_dir:
+        with plt.style.context("shared/styling.mplstyle"):
+            # Current
             fig, ax = plt.subplots(
                 nrows=2, ncols=1, figsize=(14, 8), constrained_layout=True
             )
@@ -98,11 +95,11 @@ class DnLookingADCP(IngestPipeline):
             add_colorbar(ax[1], velN, r"Velocity North [m/s]")
             velN.set_clim(-3, 3)
 
-            plot_file = get_filename(ds, title="current", extension="png")
-            fig.savefig(tmp_dir / plot_file)
+            plot_file = self.get_ancillary_filepath(title="current")
+            fig.savefig(plot_file)
             plt.close(fig)
 
-        with self.storage.uploadable_dir(datastream) as tmp_dir:
+            # Amplitude
             fig, ax = plt.subplots(
                 nrows=ds.n_beams, ncols=1, figsize=(14, 8), constrained_layout=True
             )
@@ -117,11 +114,11 @@ class DnLookingADCP(IngestPipeline):
                 ax[beam].set_ylim([-y_max, 0])
                 add_colorbar(ax[beam], amp, "Amplitude")
 
-            plot_file = get_filename(ds, title="amplitude", extension="png")
-            fig.savefig(tmp_dir / plot_file)
+            plot_file = self.get_ancillary_filepath(title="amplitude")
+            fig.savefig(plot_file)
             plt.close(fig)
 
-        with self.storage.uploadable_dir(datastream) as tmp_dir:
+            # Correlation
             fig, ax = plt.subplots(
                 nrows=ds.n_beams, ncols=1, figsize=(14, 8), constrained_layout=True
             )
@@ -140,11 +137,11 @@ class DnLookingADCP(IngestPipeline):
                 ax[beam].set_ylim([-y_max, 0])
                 add_colorbar(ax[beam], corr, "Correlation")
 
-            plot_file = get_filename(ds, title="correlation", extension="png")
-            fig.savefig(tmp_dir / plot_file)
+            plot_file = self.get_ancillary_filepath(title="correlation")
+            fig.savefig(plot_file)
             plt.close(fig)
 
-        with self.storage.uploadable_dir(datastream) as tmp_dir:
+            # Lat/lon
             fig, ax = plt.subplots()
 
             h = ax.scatter(
@@ -168,6 +165,6 @@ class DnLookingADCP(IngestPipeline):
             ax.xaxis.set_major_formatter(FormatStrFormatter("%.4f"))
             ax.yaxis.set_major_formatter(FormatStrFormatter("%.4f"))
 
-            plot_file = get_filename(ds, title="location", extension="png")
-            fig.savefig(tmp_dir / plot_file)
+            plot_file = self.get_ancillary_filepath(title="location")
+            fig.savefig(plot_file)
             plt.close(fig)

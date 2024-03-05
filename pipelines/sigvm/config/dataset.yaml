@@ -120,7 +120,7 @@ coords:
   beam:
     dims: [beam]
     data: [1, 2, 3, 4]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Beam Reference Frame
       units: "1"
@@ -158,7 +158,7 @@ data_vars:
       units: dB
   corr:
     dims: [beam, range, time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
@@ -212,44 +212,45 @@ data_vars:
       long_name: Figure of Merit
       coverage_content_type: physicalMeasurement
 
-  dist_alt:
+  le_dist_alt:
     dims: [time]
-    dtype: float
+    dtype: float32
     attrs:
-      long_name: Altimeter Range
+      long_name: Altimeter Range (Leading Edge Algorithm)
       standard_name: altimeter_range
       units: m
-  quality_alt:
+  le_quality_alt:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
-      long_name: Altimeter Quality
-      units: "dB"
-  dist_ast:
+      long_name: Altimeter Quality (Leading Edge Algorithm)
+      units: dB
+  ast_dist_alt:
     dims: [time]
-    dtype: float
+    dtype: float32
     attrs:
-      long_name: Acoustic Surface Tracking Range
+      long_name: Altimeter Range (Acoustic Surface Tracking)
+      standard_name: altimeter_range
       units: m
-  pressure_ast:
+  ast_quality_alt:
     dims: [time]
-    dtype: float
+    dtype: int32
     attrs:
-      long_name: Acoustic Surface Tracking Pressure
+      long_name: Altimeter Quality (Acoustic Surface Tracking)
+      units: dB
+  ast_offset_time_alt:
+    dims: [time]
+    dtype: float32
+    attrs:
+      description: Altimeter offset from `time`
+      units: s
+  pressure_alt:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Altimeter Pressure
       standard_name: sea_water_pressure
       units: dbar
-  offset_time_ast:
-    dims: [time]
-    dtype: float
-    attrs:
-      description: Acoustic surface tracking offset from `time`
-      units: s
-  quality_ast:
-    dims: [time]
-    dtype: int
-    attrs:
-      long_name: Acoustic Surface Tracking Quality
-      units: "dB"
 
   depth:
     dims: [time]
@@ -332,40 +333,40 @@ data_vars:
 
   transmit_energy:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Transmit Energy
       standard_name: sound_pressure_level_of_acoustic_signal
       units: dB
   transmit_energy_bt:
     dims: [time_bt]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Bottom Track Transmit Energy
       standard_name: sound_pressure_level_of_acoustic_signal
       units: dB
   transmit_energy_echo:
     dims: [time_echo]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Echo Sounder Transmit Energy
       standard_name: sound_pressure_level_of_acoustic_signal
       units: dB
   error:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Error Code
       units: "1"
   error_bt:
     dims: [time_bt]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Bottom Track Error Code
       units: "1"
   error_echo:
     dims: [time_echo]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Echo Sounder Error Code
       units: "1"
@@ -411,25 +412,25 @@ data_vars:
 
   active_configuration:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Active configuration for instruments running a dual profile"
       units: "1"
   boost_running_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Boost mode running (0 or 1)"
       units: "1"
   low_voltage_skip_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Ping skipped due to low voltage (0 or 1)"
       units: "1"
   telemetry_data_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Ping has associated telemetry data (0 or 1)"
       units: "1"

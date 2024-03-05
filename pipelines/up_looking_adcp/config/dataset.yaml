@@ -94,7 +94,7 @@ coords:
   beam:
     dims: [beam]
     data: [1, 2, 3, 4]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Beam Reference Frame
       units: "1"
@@ -148,7 +148,7 @@ data_vars:
       units: dB
   corr:
     dims: [beam, range, time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
@@ -255,27 +255,27 @@ data_vars:
       units: degC
   transmit_energy:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Transmit Energy
       standard_name: sound_pressure_level_of_acoustic_signal
       units: dB
   transmit_energy_b5:
     dims: [time_b5]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Beam 5 Transmit Energy
       standard_name: sound_pressure_level_of_acoustic_signal
       units: dB
   error:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Error Code
       units: "1"
   error_b5:
     dims: [time_b5]
-    dtype: int
+    dtype: int32
     attrs:
       long_name: Beam 5 Error Code
       units: "1"
@@ -307,25 +307,25 @@ data_vars:
       standard_name: number_of_observations
   active_configuration:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Active configuration for instruments running a dual profile"
       units: "1"
   boost_running_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Boost mode running (0 or 1)"
       units: "1"
   low_voltage_skip_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Ping skipped due to low voltage (0 or 1)"
       units: "1"
   telemetry_data_flag:
     dims: [time]
-    dtype: int
+    dtype: int32
     attrs:
       description: "Ping has associated telemetry data (0 or 1)"
       units: "1"

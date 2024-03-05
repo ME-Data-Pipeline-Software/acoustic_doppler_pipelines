@@ -6,10 +6,9 @@ import pandas as pd
 import os
 from io import BytesIO
 import pynmea2
-
+import mhkit.dolfyn as dolfyn
+from mhkit.dolfyn.adp import api
 from tsdat import DataReader
-import dolfyn
-from dolfyn.adp import api
 
 
 class SigVMReader(DataReader):
@@ -74,7 +73,7 @@ class SigVMReader(DataReader):
         # Set depth below water surface
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
         api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
-        ds["depth"] = ds.h_deploy + ds["alt_dist"]
+        ds["depth"] = ds.h_deploy + ds["le_dist_alt"]
 
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)

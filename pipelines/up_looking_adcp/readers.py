@@ -1,12 +1,10 @@
 from typing import Dict, Union
 from pydantic import BaseModel, Extra
 import xarray as xr
-import os
-from io import BytesIO
 
 from tsdat import DataReader
-import dolfyn
-from dolfyn.adp import api
+import mhkit.dolfyn as dolfyn
+from mhkit.dolfyn.adp import api
 
 
 class UpFacingADCPReader(DataReader):

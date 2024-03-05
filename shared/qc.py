@@ -5,7 +5,7 @@ import scipy.stats as st
 from pydantic import BaseModel, Extra
 
 from tsdat import QualityChecker, QualityHandler
-from dolfyn.adv.clean import GN2002, clean_fill
+from mhkit.dolfyn.adv.clean import GN2002, clean_fill
 
 
 class CheckCorrelation(QualityChecker):

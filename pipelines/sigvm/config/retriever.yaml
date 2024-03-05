@@ -74,24 +74,24 @@ data_vars:
     .*\.AD2CP:
       name: fom_bt
 
-  dist_alt:
+  le_dist_alt:
     .*\.AD2CP:
-      name: alt_dist
-  quality_alt:
+      name: le_dist_alt
+  le_quality_alt:
     .*\.AD2CP:
-      name: alt_quality
-  dist_ast:
+      name: le_quality_alt
+  ast_dist_alt:
     .*\.AD2CP:
-      name: ast_dist
-  pressure_ast:
+      name: ast_dist_alt
+  ast_quality_alt:
     .*\.AD2CP:
-      name: ast_pressure
-  offset_time_ast:
+      name: ast_quality_alt
+  ast_offset_time_alt:
     .*\.AD2CP:
-      name: ast_offset_time
-  quality_ast:
+      name: ast_offset_time_alt
+  pressure_alt:
     .*\.AD2CP:
-      name: ast_quality
+      name: pressure_alt
 
   depth:
     .*\.AD2CP:

@@ -4,7 +4,7 @@ from pydantic import BaseModel, Extra
 from typing import Any, Optional
 
 from tsdat import FileWriter
-from dolfyn import save_mat
+from mhkit.dolfyn import save_mat
 
 
 class MatlabWriter(FileWriter):
