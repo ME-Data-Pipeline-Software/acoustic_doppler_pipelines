@@ -52,7 +52,7 @@ coords:
     dims: [time]
     dtype: datetime64[ms]
     attrs:
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       long_name: Time
       standard_name: time
       timezone: UTC
@@ -62,7 +62,7 @@ coords:
   #   dims: [time_b5]
   #   dtype: datetime64[ms]
   #   attrs:
-  #     units: Seconds since 1970-01-01 00:00:00
+  #     units: Seconds since 1970-01-01 00:00:00 UTC
   #     long_name: Time
   #     standard_name: time
   #     timezone: UTC
@@ -73,7 +73,7 @@ coords:
     dtype: datetime64[ns]
     attrs:
       timezone: UTC
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       coverage_content_type: coordinate
       long_name: Time
       standard_name: time
@@ -235,15 +235,6 @@ data_vars:
       standard_name: depth_below_platform
       units: m
       positive: down
-  water_density:
-    dims: [time]
-    dtype: float32
-    attrs:
-      long_name: Water Density
-      standard_name: sea_water_density
-      description:
-        "Water density from linear approximation of sea water equation of state"
-      units: kg/m^3
   heading:
     dims: [time]
     dtype: float32

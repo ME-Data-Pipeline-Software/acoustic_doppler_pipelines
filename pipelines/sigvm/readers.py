@@ -31,7 +31,6 @@ class SigVMReader(DataReader):
         """
 
         depth_offset: float = 0.5
-        salinity: float = 35
         magnetic_declination: float = 0
 
     parameters: Parameters = Parameters()
@@ -70,16 +69,14 @@ class SigVMReader(DataReader):
         os.remove("data.ad2cp")
         os.remove("data.ad2cp.index")
 
-        # Set depth below water surface
+        # Set range given ADCP depth
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
-        api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
-        ds["depth"] = ds.h_deploy + ds["le_dist_alt"]
 
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
         dolfyn.rotate2(ds, "earth")
 
-        # HACK: Add time_gps since tsdat can't add extra coordinates
+        # Add time_gps since tsdat can't add extra coordinates
         ds = ds.assign_coords({"time_gps": ds["time"]})
 
         return ds

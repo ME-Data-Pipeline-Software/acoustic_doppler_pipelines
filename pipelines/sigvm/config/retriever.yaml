@@ -16,7 +16,6 @@ readers:
           classname: pipelines.sigvm.readers.SigVMReader
           parameters:
             depth_offset: 0.5
-            salinity: 30
             magnetic_declination: 15.6
         .*\.nmea:
           classname: pipelines.sigvm.readers.NMEAReader
@@ -25,12 +24,24 @@ coords:
   time:
     .*\.AD2CP:
       name: time
+      # data_converters:
+      #   - classname: tsdat.io.converters.StringToDatetime
+      #     format: "%Y-%m-%dT%H:%M:%S"
+      #     timezone: UTC
   time_bt:
     .*\.AD2CP:
       name: time_bt
+      # data_converters:
+      #   - classname: tsdat.io.converters.StringToDatetime
+      #     format: "%Y-%m-%dT%H:%M:%S"
+      #     timezone: UTC
   time_echo:
     .*\.AD2CP:
       name: time_echo
+      # data_converters:
+      #   - classname: tsdat.io.converters.StringToDatetime
+      #     format: "%Y-%m-%dT%H:%M:%S"
+      #     timezone: UTC
   time_gps:
     .*\.nmea:
       name: time_gps
@@ -96,9 +107,6 @@ data_vars:
   depth:
     .*\.AD2CP:
       name: depth
-  water_density:
-    .*\.AD2CP:
-      name: water_density
   heading:
     .*\.AD2CP:
       name: heading

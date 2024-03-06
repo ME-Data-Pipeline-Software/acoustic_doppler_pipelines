@@ -4,7 +4,6 @@ readers:
     classname: pipelines.dn_looking_adcp.readers.DnFacingADCPReader
     parameters:
       depth_offset: 0.5
-      salinity: 30
       magnetic_declination: 15.6
 
 coords:
@@ -58,8 +57,6 @@ data_vars:
 
   depth:
     name: depth
-  water_density:
-    name: water_density
   heading:
     name: heading
   pitch:

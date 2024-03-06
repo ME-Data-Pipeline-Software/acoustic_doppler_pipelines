@@ -51,7 +51,6 @@ class DnFacingADCPReader(DataReader):
         # Set depth below water surface
 
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
-        api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
         ds["depth"] = ds.h_deploy + ds["dist_bt"].mean("beam")
 
         # Rotate to Earth coordinates

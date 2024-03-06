@@ -55,12 +55,18 @@ attrs:
   dataset_name: sigvm
   data_level: b1
 
+  # Pipeline specific parameters
+  vel_bt_correction: 1 # Use bottom track to correct velocity measurements?
+  vel_gps_correction: 0 # Or use GPS? (Or neither?)
+  use_alt_depth: 1 # Use altimeter measurements to track depth?
+  use_bt_depth: 0 # Or bottom track range? (Or neither?)
+
 coords:
   time:
     dims: [time]
     dtype: datetime64[ms]
     attrs:
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       long_name: Time
       standard_name: time
       timezone: UTC
@@ -70,7 +76,7 @@ coords:
     dims: [time_bt]
     dtype: datetime64[ms]
     attrs:
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       long_name: Bottom Track Timestamp
       standard_name: time
       timezone: UTC
@@ -80,7 +86,7 @@ coords:
     dims: [time_echo]
     dtype: datetime64[ms]
     attrs:
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       long_name: Echo Sounder Timestamp
       standard_name: time
       timezone: UTC
@@ -90,7 +96,7 @@ coords:
     dims: [time_gps]
     dtype: datetime64[ns]
     attrs:
-      units: Seconds since 1970-01-01 00:00:00
+      units: Seconds since 1970-01-01 00:00:00 UTC
       coverage_content_type: coordinate
       long_name: Time
       standard_name: time
@@ -256,19 +262,10 @@ data_vars:
     dims: [time]
     dtype: float32
     attrs:
-      long_name: Instrument Depth
-      standard_name: depth
+      long_name: Depth
+      standard_name: depth_below_platform
       units: m
       positive: down
-  water_density:
-    dims: [time]
-    dtype: float32
-    attrs:
-      long_name: Water Density
-      standard_name: sea_water_density
-      description:
-        "Water density from linear approximation of sea water equation of state"
-      units: kg/m^3
   heading:
     dims: [time]
     dtype: float32
@@ -449,6 +446,12 @@ data_vars:
       units: deg E
       long_name: Longitude
       standard_name: longitude
+  vel_gps:
+    dims: ["earth", "time_gps"]
+    dtype: float32
+    attrs:
+      units: m/s
+      long_name: Velocity from GPS Lat/Lon
   fix_gps:
     dims: [time_gps]
     dtype: int8
