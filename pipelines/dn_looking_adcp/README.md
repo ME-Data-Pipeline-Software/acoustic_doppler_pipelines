@@ -8,7 +8,6 @@ This README file contains instructions for running and testing this pipeline. Da
 "./storage/root/data" in netCDF4 and MATLAB file formats. Velocity, amplitude and correlation plots are 
 saved in the corresponding "./storage/root/ancillary" folder.
 
-============================================================================================================
 
 ## Prerequisites
 
@@ -22,7 +21,6 @@ saved in the corresponding "./storage/root/ancillary" folder.
 * Make sure to activate the tsdat-pipelines anaconda environment before running any 
 commands:  `conda activate tsdat-pipelines`
 
-============================================================================================================
 
 ## Editing pipeline data fields
 This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
@@ -48,7 +46,6 @@ Remove all entries that have the `_echo` tag. You can do this as well for `datas
 
 5. You may need to update the "trigger" listed in `config/pipeline.yaml` for your ADCP's binary file extension.
 
-============================================================================================================
 
 ## Running your pipeline
 This section shows you how to run the ingest pipeline created by the template.  Note that `{ingest-name}` refers
@@ -57,12 +54,16 @@ the template prompt.
 
 1. Make sure to be in the `acoustic_Doppler_pipelines` folder
 
+```bash
+cd $PATH_TO_PIPELINE/acoustic_doppler_pipelines
+conda create env
+conda activate adcp-pipelines
+```
+
 2. Run the runner.py with your test data input file as shown below:
 
 ```bash
-cd $PATH_TO_PIPELINE/acoustic_Doppler_pipelines
-conda activate tsdat-pipelines # <-- you only need to do this the first time you start a terminal shell
-python runner.py $PATH_TO_DATA/{filename}.{ext}
+python runner.py ingest $PATH_TO_DATA/{filename}.{ext}
 ```
 
 3. Finally, data and plots are saved in `acoustic_Doppler_pipelines/storage/root/`

@@ -9,12 +9,16 @@ This README file contains instructions for running and testing this pipeline. Da
 "./storage/root/data" in netCDF4 and MATLAB file formats. Velocity, amplitude and correlation plots are 
 saved in the corresponding "./storage/root/ancillary" folder.
 
-The Advanced Navigation Compass in the Nortek Signature VM acquisition software should be set 
-to the channel outputting NMEA (typically 9001 or 9002), not "ANPP" (Advanced Navigation Packet Protocol, 
-an AdNav custom format), which can be set from the Compass's internal html webpage. The GGA, VTG, RMC, and
-HDT sentences should be active and set to at least 2 Hz.
+## Data Collection
+The ADCP should be mounted in its teardrop-shaped fairing and mounted at a 45 degree angle, where the 
+X-axis is pointed to port when the ADCP is upside down. Enable bottom track if the water depth is within
+the ADCP's range.
 
-============================================================================================================
+The Advanced Navigation Compass should be mounted directly above the ADCP and longitudinally aligned with 
+the vessel bow and stern. It should be set to the channel outputting NMEA (typically 9001 or 9002), not 
+"ANPP" (Advanced Navigation Packet Protocol), which can be set from the Compass's internal html webpage. 
+The RMC (for NTP), GGA (position), VTG (speed), and HDT (heading) sentences should be active and set to 
+at least 2 Hz if bottom track is running, 10 Hz if not.
 
 ## Prerequisites
 
@@ -28,7 +32,6 @@ HDT sentences should be active and set to at least 2 Hz.
 * Make sure to activate the tsdat-pipelines anaconda environment before running any 
 commands:  `conda activate tsdat-pipelines`
 
-=============================================================================================================
 
 ## Editing pipeline data fields
 This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
@@ -41,9 +44,8 @@ and `dataset.yaml`. Remove all entries that have the `_echo` tag.
 
     a. "depth_offset" is the distance below the waterline that the ADCP transducers sit
 
-    b. "salinity" is the water salinity, which ranges around 31 for the channel into Sequim Bay
-
-    c. "magnetic_declination" is the current magnetic declination. You can look this up online.
+    b. "magnetic_declination" is the current magnetic declination. Note it is 
+    not used if the NMEA HDT sentence is recorded.
 
 3. In `dataset.yaml`, update the information under the `attrs` block per the data collection specifics.
 
@@ -61,12 +63,16 @@ the template prompt.
 
 1. Make sure to be in the `acoustic_Doppler_pipelines` folder
 
+```bash
+cd $PATH_TO_PIPELINE/acoustic_doppler_pipelines
+conda create env
+conda activate adcp-pipelines
+```
+
 2. Run the runner.py with your test data input file as shown below:
 
 ```bash
-cd $PATH_TO_PIPELINE/acoustic_Doppler_pipelines
-conda activate tsdat-pipelines # <-- you only need to do this the first time you start a terminal shell
-python runner.py $PATH_TO_DATA/{filename}.SigVM
+python runner.py ingest $PATH_TO_DATA/{filename}.SigVM
 ```
 
 3. Finally, data and plots are saved in `acoustic_Doppler_pipelines/storage/root/`
