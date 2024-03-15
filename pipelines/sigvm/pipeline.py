@@ -1,7 +1,8 @@
+import warnings
 import numpy as np
 import pandas as pd
 import xarray as xr
-from scipy.signal import convolve2d, medfilt
+from scipy.signal import convolve2d
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 from mhkit import dolfyn
@@ -88,19 +89,31 @@ class SigVM(IngestPipeline):
             dataset["depth"] = dataset.h_deploy + dist
             api.clean.nan_beyond_surface(dataset, inplace=True)
 
-        # Calculate GPS velocity
-        if "speed_over_grnd_gps" in dataset:
-            vel_E = dataset["speed_over_grnd_gps"] * np.sin(
-                np.deg2rad(dataset["dir_over_grnd_gps"])
+        # Realign ADCP based on GPS heading
+        if "heading_gps" in dataset and not all(
+            dataset["heading_gps"] == dataset["heading_gps"]._FillValue
+        ):
+            # Remove magnetic declination and set heading based on GPS
+            dataset.attrs["rotate_vars"] = ["vel", "vel_bt"]
+            dolfyn.set_declination(dataset, -dataset.declination)
+            dolfyn.rotate2(dataset, "inst")
+
+            # Manually realign beam 3 (y-axis in Nortek coordinate system) to GPS heading
+            warnings.warn(
+                "Assumed ADCP X-axis rotated -45 degrees (to port). Switch sign in "
+                "sigvm/pipeline.py to (+) if rotated to starboard"
             )
-            vel_N = dataset["speed_over_grnd_gps"] * np.cos(
-                np.deg2rad(dataset["dir_over_grnd_gps"])
+            dataset.attrs["heading_offset"] = -45
+            dataset["heading"] = ((dataset["heading_gps"] - 45) % 360).interp(
+                time_gps=dataset["time"]
             )
-            dataset["vel_gps"].loc[{"earth": "E"}] = vel_E
-            dataset["vel_gps"].loc[{"earth": "N"}] = vel_N
-            dataset["vel_gps"].loc[{"earth": "U"}] = vel_N * 0
-        elif "latitude_gps" in dataset:
-            dataset["vel_gps"] = process_gps_data(dataset)
+
+            dataset = dataset.drop_vars(["orientmat"])
+            dataset["orientmat"] = dolfyn.rotate.vector._euler2orient(
+                dataset["time"], dataset["heading"], dataset["pitch"], dataset["roll"]
+            )
+            # Rotate to earth now in true coordinates
+            dolfyn.rotate2(dataset, "earth")
 
         # Correct velocity with bottom track
         if getattr(dataset, "vel_bt_correction", 0):
@@ -112,6 +125,20 @@ class SigVM(IngestPipeline):
 
         # Correct velocity with GPS
         elif getattr(dataset, "vel_gps_correction", 0):
+            # Calculate GPS velocity
+            if "speed_over_grnd_gps" in dataset:
+                vel_E = dataset["speed_over_grnd_gps"] * np.sin(
+                    np.deg2rad(dataset["dir_over_grnd_gps"])
+                )
+                vel_N = dataset["speed_over_grnd_gps"] * np.cos(
+                    np.deg2rad(dataset["dir_over_grnd_gps"])
+                )
+                dataset["vel_gps"].loc[{"earth": "E"}] = vel_E
+                dataset["vel_gps"].loc[{"earth": "N"}] = vel_N
+                dataset["vel_gps"].loc[{"earth": "U"}] = vel_N * 0
+            elif "latitude_gps" in dataset:
+                dataset["vel_gps"] = process_gps_data(dataset)
+
             # Must ADD GPS velocity to remove from water velocity
             tmp = np.zeros((4, dataset["time"].size), dtype=np.float32)
             tmp[:3] = dataset["vel_gps"].interp(time_gps=dataset["time"]).values
@@ -239,11 +266,12 @@ class SigVM(IngestPipeline):
                 s=100,
             )
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
+            lat_gps = ds["longitude_gps"][0::10]
             ax.quiver(
-                ds["longitude_gps"],
-                ds["latitude_gps"],
-                ds["vel"][0].mean("range").interp(time=ds["time_gps"]).values,
-                ds["vel"][1].mean("range").interp(time=ds["time_gps"]).values,
+                ds["longitude_gps"][0::10],
+                ds["latitude_gps"][0::10],
+                ds["vel"][0].mean("range").interp(time=ds["time_gps"]).values[0::10],
+                ds["vel"][1].mean("range").interp(time=ds["time_gps"]).values[0::10],
             )
 
             ax.set_title("")  # Remove bogus title created by xarray

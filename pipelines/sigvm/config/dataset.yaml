@@ -153,8 +153,8 @@ data_vars:
     attrs:
       long_name: Sea Water Velocity
       units: m/s
-      valid_min: -5
-      valid_max: 5
+      valid_min: -4
+      valid_max: 4
   amp:
     dims: [beam, range, time]
     dtype: float32
@@ -273,8 +273,8 @@ data_vars:
       long_name: Heading
       standard_name: platform_orientation
       units: deg
-      valid_min: -180
-      valid_max: 180
+      valid_min: 0
+      valid_max: 360
   pitch:
     dims: [time]
     dtype: float32

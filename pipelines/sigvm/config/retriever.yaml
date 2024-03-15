@@ -206,6 +206,9 @@ data_vars:
   speed_over_grnd_gps:
     .*\.nmea:
       name: vtg_spd_over_grnd_kt
+      data_converters:
+        - classname: tsdat.io.converters.UnitsConverter
+          input_units: kt
   heading_gps:
     .*\.nmea:
       name: hdt_heading
