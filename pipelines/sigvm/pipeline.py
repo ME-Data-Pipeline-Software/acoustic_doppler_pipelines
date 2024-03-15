@@ -257,7 +257,6 @@ class SigVM(IngestPipeline):
 
             # Lat/lon
             fig, ax = plt.subplots()
-
             h = ax.scatter(
                 ds["longitude_gps"],
                 ds["latitude_gps"],
@@ -266,7 +265,6 @@ class SigVM(IngestPipeline):
                 s=100,
             )
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
-            lat_gps = ds["longitude_gps"][0::10]
             ax.quiver(
                 ds["longitude_gps"][0::10],
                 ds["latitude_gps"][0::10],
