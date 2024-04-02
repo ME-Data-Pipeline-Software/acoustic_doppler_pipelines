@@ -1,13 +1,22 @@
 # Down-looking ADCP Ingestion Pipeline
 
-This pipeline reads in binary files output from a vessel-mounted ADCP. It 
-is currently set up to read in water-track data from a 4 beam ADCP. You may need to add 
-or remove some variables if they aren't saved, as detailed below.
+This pipeline reads in binary files output from a vessel-mounted ADCP, including those read by
+Winriver2 or VMDAs. It is currently set up to read in water-track data from a 4 beam TRDI ADCP. You 
+may need to add or remove some variables if they aren't saved, as detailed below.
 
 This README file contains instructions for running and testing this pipeline. Datafiles are saved under
 "./storage/root/data" in netCDF4 and MATLAB file formats. Velocity, amplitude and correlation plots are 
 saved in the corresponding "./storage/root/ancillary" folder.
 
+## Data Collection
+The ADCP should be mounted below water at a -45 degree angle. For a TRDI instrument, this means the 
+Y-axis (beam 3 notch) is pointed to port when the ADCP is upside down. For a Nortek instrument, this
+means the X-axis is pointed to port when the ADCP is upside down. A bin size of 0.5 m and a blank distance of 0.5 m are good general parameters. Enable bottom track if the water depth is within the ADCP's range, but turn it off if not. Sample as fast as possible, typically 2 Hz.
+
+The GPS should be mounted directly above the ADCP and set it to output NMEA sentences at 2 Hz if 
+bottom track is running and 10 Hz if not. Turn on the GGA (position) and VTG (speed) sentences, and HDT
+(heading) if possible. If HDT is turned on, make sure to align the GPS heading longitudinally with the 
+vessel bow and stern.
 
 ## Prerequisites
 
@@ -18,33 +27,29 @@ saved in the corresponding "./storage/root/ancillary" folder.
 > installed. If using WSL, see [this tutorial on WSL](https://tsdat.readthedocs.io/en/latest/tutorials/wsl.html) for
 > how to set up a WSL environment and attach VS Code to it.
 
-* Make sure to activate the tsdat-pipelines anaconda environment before running any 
-commands:  `conda activate tsdat-pipelines`
+* Make sure to activate the adcp-pipelines anaconda environment before running any 
+commands:  `conda activate adcp-pipelines`
 
 
 ## Editing pipeline data fields
-This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
-echo sounder. It also has some basic parameters set up for sampling in Sequim Bay.
+This pipeline is set up to handle data created by an ADCP and GPS recording real-time data to a laptop.
 
-1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml`. 
-Remove all entries that have the `_echo` tag. You can do this as well for `dataset.yaml`, but this isn't critical.
-
-2. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
+1. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
 
     a. "depth_offset" is the distance below the waterline that the ADCP transducers sit
 
-    b. "salinity" is the water salinity, which ranges around 31 for the channel into Sequim Bay
+    b. "magnetic_declination" is the current magnetic declination. You can look this up online.
 
-    c. "magnetic_declination" is the current magnetic declination. You can look this up online.
+2. In `dataset.yaml`, update the information under the `attrs` block per the data collection specifics.
 
-3. In `dataset.yaml`, update the information under the `attrs` block per the data collection specifics.
+    a. "vel_xx_correction" set to "1" to turn on either bottom track (bt) or GPS motion correction.
 
-4. There is one parameter listed in `shared/quality.yaml` that can be updated:
+3. There is one parameter listed in `shared/quality.yaml` that can be updated:
 
-    a. "correlation_threshold", on line 71, is for a QC test that removes velocity data below a certain % acoustic signal 
-    correlation.
+    a. "correlation_threshold", on line 71, is for a QC test that removes velocity data below a certain % 
+    acoustic signal correlation.
 
-5. You may need to update the "trigger" listed in `config/pipeline.yaml` for your ADCP's binary file extension.
+4. You may need to update the "trigger" listed in `config/pipeline.yaml` for your ADCP's binary file extension. It will need to be different from other pipelines listed in this repository.
 
 
 ## Running your pipeline

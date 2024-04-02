@@ -11,14 +11,17 @@ saved in the corresponding "./storage/root/ancillary" folder.
 
 ## Data Collection
 The ADCP should be mounted in its teardrop-shaped fairing and mounted at a 45 degree angle, where the 
-X-axis is pointed to port when the ADCP is upside down. Enable bottom track if the water depth is within
-the ADCP's range.
+X-axis is pointed to port when the ADCP is upside down (-45 deg). Follow the instructions in the Nortek 
+software to configure and run the ADCP. A bin size of 0.5 m and a blank distance of 0.5 m are good 
+general parameters. Enable bottom track and/or the altimeter if the water depth is within the ADCP's 
+range, but turn them off if not. Disable the echosounder if not needed as well.
 
 The Advanced Navigation Compass should be mounted directly above the ADCP and longitudinally aligned with 
 the vessel bow and stern. It should be set to the channel outputting NMEA (typically 9001 or 9002), not 
 "ANPP" (Advanced Navigation Packet Protocol), which can be set from the Compass's internal html webpage. 
 The RMC (for NTP), GGA (position), VTG (speed), and HDT (heading) sentences should be active and set to 
 at least 2 Hz if bottom track is running, 10 Hz if not.
+
 
 ## Prerequisites
 
@@ -29,16 +32,17 @@ at least 2 Hz if bottom track is running, 10 Hz if not.
 > installed. If using WSL, see [this tutorial on WSL](https://tsdat.readthedocs.io/en/latest/tutorials/wsl.html) for
 > how to set up a WSL environment and attach VS Code to it.
 
-* Make sure to activate the tsdat-pipelines anaconda environment before running any 
-commands:  `conda activate tsdat-pipelines`
+* Make sure to activate the adcp-pipelines anaconda environment before running any 
+commands:  `conda activate adcp-pipelines`
 
 
 ## Editing pipeline data fields
 This pipeline is set up to handle data created by a Nortek Signature1000 VM running both bottom track and the
 echo sounder. It also has some basic parameters set up for sampling in Sequim Bay.
 
-1. If you are not running the echo sounder, navigate to `pipelines/sigvm/config` and open `retriever.yaml` 
-and `dataset.yaml`. Remove all entries that have the `_echo` tag. 
+1. If you are not running the echo sounder, bottom track, and/or altimeter, navigate to 
+`pipelines/sigvm/config` and open `retriever.yaml` and `dataset.yaml`. Remove all entries 
+that have the `_echo`, `_bt`, or `_alt` tag, respectively. 
 
 2. There are a number of parameters listed in `retriever.yaml` in lines 15-18 that should be updated.
 
@@ -48,6 +52,11 @@ and `dataset.yaml`. Remove all entries that have the `_echo` tag.
     not used if the NMEA HDT sentence is recorded.
 
 3. In `dataset.yaml`, update the information under the `attrs` block per the data collection specifics.
+
+    a. "vel_xx_correction" set to "1" to turn on either bottom track (bt) or GPS motion correction.
+
+    b. "use_xx_depth" set to "1" to use either bottom track (bt) or the altimeter (alt) to determine
+       water depth.
 
 4. There is one parameter listed in `shared/quality.yaml` that can be updated:
 

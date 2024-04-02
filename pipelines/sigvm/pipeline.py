@@ -50,13 +50,15 @@ class SigVM(IngestPipeline):
             # Manually realign beam 3 (y-axis in Nortek coordinate system) to GPS heading
             warnings.warn(
                 "Assumed ADCP X-axis rotated -45 degrees (to port). Switch sign in "
-                "sigvm/pipeline.py to (+) if rotated to starboard"
+                "sigvm/pipeline.py to (+) if rotated to starboard."
             )
+            # Change sign or value if necessary
             dataset.attrs["heading_misalign_deg"] = -45
-            dataset["heading"] = ((dataset["heading_gps"] - 45) % 360).interp(
-                time_gps=dataset["time"]
-            )
+            dataset["heading"] = (
+                (dataset["heading_gps"] + dataset.attrs["heading_misalign_deg"]) % 360
+            ).interp(time_gps=dataset["time"])
 
+            # Recreate orientation matrix
             dataset = dataset.drop_vars(["orientmat"])
             dataset["orientmat"] = dolfyn.rotate.vector._euler2orient(
                 dataset["time"], dataset["heading"], dataset["pitch"], dataset["roll"]

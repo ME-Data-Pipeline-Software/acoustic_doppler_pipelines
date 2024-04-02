@@ -47,6 +47,10 @@ attrs:
   dataset_name: trdi1200
   data_level: b1
 
+  # Pipeline specific parameters
+  vel_bt_correction: 1  # Use bottom track to correct velocity measurements?
+  vel_gps_correction: 0  # Or use GPS? (Or neither?)
+
 coords:
   time:
     dims: [time]

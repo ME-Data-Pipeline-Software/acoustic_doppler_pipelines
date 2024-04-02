@@ -3,9 +3,13 @@
 [![tests](https://github.com/tsdat/pipeline-template/actions/workflows/tests.yml/badge.svg)](https://github.com/tsdat/pipeline-template/actions/workflows/tests.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This repository contains a collection of one or more `tsdat` pipelines (as found under the ``pipelines`` folder).  This
-enables related pipelines to be more easily maintained and run together.  New pipelines can be added easily via
-the template mechanism described below.
+This repository contains a collection of pipelines to read and process acoustic Doppler current profiler (ADCP)
+data (as found under the ``pipelines`` folder). Pipelines exist for reading bottom-mounted, up-looking ADCPs,
+down-looking, vessel-mounted ADCPs, and a pipeline for ADCP data collected by Nortek Signature VM software.
+Further instructions
+are detailed in individual pipeline READMEs.
+
+New pipelines can be added easily via the template mechanism described below.
 
 ## Repository Structure
 
@@ -66,7 +70,7 @@ follow the steps to copy the template repository into to your account.
 
     ```shell
     conda env create
-    conda activate tsdat-pipelines
+    conda activate adcp-pipelines
     ```
 
 3. Verify your environment is set up correctly by running the tests for this repository:
@@ -140,16 +144,16 @@ VS Code that will make it much easier to get started quickly.)*
 - The `runner.py` script can be run from the command line to process input data files:
 
     ```shell
-    python runner.py <path(s) to file(s) to process>
+    python runner.py ingest <path(s) to file(s) to process>
+    ```
 
-    ```shell
     > The pipeline(s) used to process the data will depend on the specific patterns declared
     by the `pipeline.yaml` files in each pipeline module in this repository.
 
 - You can run the example pipeline that comes bundled with this repository by running:
 
     ```shell
-    python runner.py pipelines/example_pipeline/test/data/input/buoy.z06.00.20201201.000000.waves.csv
+    python runner.py ingest pipelines/up_looking_adcp/test/data/input/Sig1000_tidal.ad2cp
     ```
 
     If goes successfully it should output some text, ending with the line:

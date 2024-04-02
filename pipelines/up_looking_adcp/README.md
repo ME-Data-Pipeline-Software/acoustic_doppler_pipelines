@@ -18,8 +18,8 @@ saved in the corresponding "./storage/root/ancillary" folder.
 > installed. If using WSL, see [this tutorial on WSL](https://tsdat.readthedocs.io/en/latest/tutorials/wsl.html) for
 > how to set up a WSL environment and attach VS Code to it.
 
-* Make sure to activate the tsdat-pipelines anaconda environment before running any 
-commands:  `conda activate tsdat-pipelines`
+* Make sure to activate the adcp-pipelines anaconda environment before running any 
+commands:  `conda activate adcp-pipelines`
 
 
 ## Editing pipeline data fields
