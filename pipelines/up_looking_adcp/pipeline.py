@@ -47,11 +47,7 @@ class UpLookingADCP(IngestPipeline):
             cb.ax.minorticks_off()
             return cb
 
-        datastream: str = self.dataset_config.attrs.datastream
         date = pd.to_datetime(ds["time"].values)
-
-        plt.style.use("default")  # clear any styles that were set before
-        plt.style.use("shared/styling.mplstyle")
 
         y_max = int(ds["depth"].max() * 1.1)
 
