@@ -74,7 +74,7 @@ the template prompt.
 
 ```bash
 cd $PATH_TO_PIPELINE/acoustic_doppler_pipelines
-conda create env
+conda env create
 conda activate adcp-pipelines
 ```
 
