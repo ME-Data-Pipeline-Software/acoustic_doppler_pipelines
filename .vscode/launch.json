@@ -22,6 +22,17 @@
             "program": "${file}",
             "justMyCode": false,
             "console": "integratedTerminal",
-        }
+        },
+        {
+            "name": "Debug SigVM",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}//runner.py",
+            "console": "integratedTerminal",
+            "args": [
+                "ingest",
+                "/data/Missions/20240408-pisces_dabob_bay/pisces_dabob_20240408/adcp/signature_1000_20240410T150217UTC.SigVM",
+            ]
+        },
     ]
 }

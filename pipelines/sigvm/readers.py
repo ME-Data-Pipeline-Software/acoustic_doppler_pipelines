@@ -4,11 +4,14 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 import os
+import warnings
 from io import BytesIO
 import pynmea2
 import mhkit.dolfyn as dolfyn
 from mhkit.dolfyn.adp import api
 from tsdat import DataReader
+from tsdat.qc.checkers import CheckMonotonic
+from tsdat.qc.handlers import RemoveFailedValues
 
 
 class SigVMReader(DataReader):
@@ -53,9 +56,10 @@ class SigVMReader(DataReader):
         # dolfyn requires a file, not a bytesIO object
         buffer: BytesIO = input_key  # type: ignore
 
-        # HACK Trim certain SigVM files with extra header lines - this will likely change
-        if "GETCLOCKSTR" not in str(buffer.getvalue()[:222]):
-            buffer_data = buffer.getvalue()[212:]  # Should get firmware version
+        # Trim certain SigVM files with extra header lines - this will likely change
+        idx = buffer.getvalue().find(b"GETCLOCKSTR") - 11
+        if idx:
+            buffer_data = buffer.getvalue()[idx:]  # Should get firmware version
         else:
             buffer_data = buffer.getvalue()
 
@@ -76,6 +80,14 @@ class SigVMReader(DataReader):
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
         dolfyn.rotate2(ds, "earth")
 
+        # Kill repeated timestamps
+        time_stamps = [c for c in ds.coords if "time" in c]
+        checker = CheckMonotonic()
+        bad = checker.run(ds, "time")
+        idx = np.argwhere(~bad).squeeze()
+        for t in time_stamps:
+            ds = ds.isel({t: idx})
+
         # Add time_gps since tsdat can't add extra coordinates
         ds = ds.assign_coords({"time_gps": ds["time"]})
 
@@ -95,6 +107,12 @@ class NMEAReader(DataReader):
         Returns:
             xr.Dataset: An xr.Dataset object
         -------------------------------------------------------------------"""
+
+        def get(item, key):
+            out = getattr(item, key)
+            if out is None:
+                out = np.nan
+            return out
 
         buffer: BytesIO = input_key  # type: ignore
         with open("data.nmea", "wb") as f:
@@ -133,24 +151,26 @@ class NMEAReader(DataReader):
 
             if "GGA" in d[t].sentence_type:
                 new_dict["gga_time"].append(float(t))
-                new_dict["gga_lat"].append(d[t].latitude)
-                new_dict["gga_lon"].append(d[t].longitude)
-                new_dict["gga_gps_qual"].append(int(d[t].gps_qual))
-                new_dict["gga_num_sats"].append(int(d[t].num_sats))
-                new_dict["gga_alt"].append(float(d[t].altitude))
-                new_dict["gga_hdop"].append(float(d[t].horizontal_dil))
+                new_dict["gga_lat"].append(get(d[t], "latitude"))
+                new_dict["gga_lon"].append(get(d[t], "longitude"))
+                new_dict["gga_gps_qual"].append(int(get(d[t], "gps_qual")))
+                new_dict["gga_num_sats"].append(int(get(d[t], "num_sats")))
+                new_dict["gga_alt"].append(float(get(d[t], "altitude")))
+                new_dict["gga_hdop"].append(float(get(d[t], "horizontal_dil")))
 
             elif "RMC" in d[t].sentence_type:
                 new_dict["rmc_time"].append(float(t))
 
             elif "VTG" in d[t].sentence_type:
                 new_dict["vtg_time"].append(float(t))
-                new_dict["vtg_course_deg"].append(float(d[t].true_track))
-                new_dict["vtg_spd_over_grnd_kt"].append(float(d[t].spd_over_grnd_kts))
+                new_dict["vtg_course_deg"].append(float(get(d[t], "true_track")))
+                new_dict["vtg_spd_over_grnd_kt"].append(
+                    float(get(d[t], "spd_over_grnd_kts"))
+                )
 
             elif "HDT" in d[t].sentence_type:
                 new_dict["hdt_time"].append(float(t))
-                new_dict["hdt_heading"].append(float(d[t].heading))
+                new_dict["hdt_heading"].append(float(get(d[t], "heading")))
 
         os.remove("data.nmea")
 
@@ -161,11 +181,36 @@ class NMEAReader(DataReader):
             new_dict[ky] = {"dims": (tg + "_time"), "data": new_dict[ky]}
 
         ds = xr.Dataset.from_dict(new_dict)
-        ds = ds.interp(
-            gga_time=ds.rmc_time,
-            vtg_time=ds.rmc_time,
-            hdt_time=ds.rmc_time,
-            method="nearest",
-        ).rename({"rmc_time": "time_gps"})
+        if any(ds["rmc_time"]):
+            ds = ds.rename({"rmc_time": "time_gps"})
+            ds = ds.interp(
+                gga_time=ds["rmc_time"],
+                vtg_time=ds["rmc_time"],
+                hdt_time=ds["rmc_time"],
+                method="nearest",
+            ).rename({"rmc_time": "time_gps"})
+        else:
+            try:  # I hate pandas
+                warnings.warn("RMC timestamp not detected. Using GGA timestamp.")
+                ds = ds.interp(
+                    vtg_time=ds["gga_time"],
+                    hdt_time=ds["gga_time"],
+                    method="nearest",
+                ).rename({"gga_time": "time_gps"})
+            except:
+                try:
+                    warnings.warn("GGA timestamp failed. Using VTG timestamp.")
+                    ds = ds.interp(
+                        gga_time=ds["vtg_time"],
+                        hdt_time=ds["vtg_time"],
+                        method="nearest",
+                    ).rename({"vtg_time": "time_gps"})
+                except:
+                    warnings.warn("VTG timestamp failed. Using HDT timestamp.")
+                    ds = ds.interp(
+                        gga_time=ds["hdt_time"],
+                        vtg_time=ds["hdt_time"],
+                        method="nearest",
+                    ).rename({"hdt_time": "time_gps"})
 
         return ds

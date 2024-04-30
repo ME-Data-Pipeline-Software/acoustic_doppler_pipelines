@@ -17,9 +17,7 @@ managers:
       parameters:
         require_increasing: true
     handlers:
-      - classname: tsdat.qc.handlers.FailPipeline
-        parameters:
-          context: Coordinate variables must be strictly increasing.
+      - classname: tsdat.qc.handlers.RemoveFailedValues
     apply_to:
       - COORDS
     exclude: [dir, beam, inst, earth, q]
@@ -32,7 +30,6 @@ managers:
       - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
-          bit: 1
           assessment: bad
           meaning: "Value is equal to _FillValue or NaN"
     apply_to:
@@ -45,7 +42,6 @@ managers:
       - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
-          bit: 2
           assessment: bad
           meaning: "Value is less than the valid_min."
     apply_to:
@@ -58,7 +54,6 @@ managers:
       - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
-          bit: 3
           assessment: bad
           meaning: "Value is greater than the valid_max."
     apply_to:
@@ -73,18 +68,6 @@ managers:
       - classname: tsdat.qc.handlers.RemoveFailedValues
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
-          bit: 4
           assessment: bad
           meaning: "Value is less than correlation threshold"
     apply_to: [vel, corr, amp]
-
-  # - name: Goring Nikora 2002 despiking algorithm
-  #   checker:
-  #     classname: shared.qc.CheckGoringNikora2002
-  #   handlers:
-  #     - classname: tsdat.qc.handlers.RecordQualityResults
-  #       parameters:
-  #         bit: 5
-  #         assessment: bad
-  #         meaning: "Spike detected by Goring-Nikora algorithm"
-  #   apply_to: [velocity, velocity_bt, velocity_corrected]

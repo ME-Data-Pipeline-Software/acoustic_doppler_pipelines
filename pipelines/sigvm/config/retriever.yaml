@@ -15,8 +15,8 @@ readers:
         .*\.AD2CP:
           classname: pipelines.sigvm.readers.SigVMReader
           parameters:
-            depth_offset: 0.5
-            magnetic_declination: 15.6
+            depth_offset: 0.1
+            magnetic_declination: 15.3
         .*\.nmea:
           classname: pipelines.sigvm.readers.NMEAReader
 
@@ -35,22 +35,22 @@ coords:
       #   - classname: tsdat.io.converters.StringToDatetime
       #     format: "%Y-%m-%dT%H:%M:%S"
       #     timezone: UTC
-  time_echo:
-    .*\.AD2CP:
-      name: time_echo
-      # data_converters:
-      #   - classname: tsdat.io.converters.StringToDatetime
-      #     format: "%Y-%m-%dT%H:%M:%S"
-      #     timezone: UTC
+  # time_echo:
+  #   .*\.AD2CP:
+  #     name: time_echo
+  #     # data_converters:
+  #     #   - classname: tsdat.io.converters.StringToDatetime
+  #     #     format: "%Y-%m-%dT%H:%M:%S"
+  #     #     timezone: UTC
   time_gps:
     .*\.nmea:
       name: time_gps
   range:
     .*\.AD2CP:
       name: range
-  range_echo:
-    .*\.AD2CP:
-      name: range_echo
+  # range_echo:
+  #   .*\.AD2CP:
+  #     name: range_echo
   dir:
     .*\.AD2CP:
       name: dir
@@ -71,9 +71,9 @@ data_vars:
   corr:
     .*\.AD2CP:
       name: corr
-  echo:
-    .*\.AD2CP:
-      name: echo
+  # echo:
+  #   .*\.AD2CP:
+  #     name: echo
 
   vel_bt:
     .*\.AD2CP:
@@ -104,9 +104,6 @@ data_vars:
     .*\.AD2CP:
       name: pressure_alt
 
-  depth:
-    .*\.AD2CP:
-      name: depth
   heading:
     .*\.AD2CP:
       name: heading
@@ -138,36 +135,36 @@ data_vars:
   transmit_energy_bt:
     .*\.AD2CP:
       name: xmit_energy_bt
-  transmit_energy_echo:
-    .*\.AD2CP:
-      name: xmit_energy_echo
+  # transmit_energy_echo:
+  #   .*\.AD2CP:
+  #     name: xmit_energy_echo
   error:
     .*\.AD2CP:
       name: error
   error_bt:
     .*\.AD2CP:
       name: error_bt
-  error_echo:
-    .*\.AD2CP:
-      name: error_echo
+  # error_echo:
+  #   .*\.AD2CP:
+  #     name: error_echo
   ensemble:
     .*\.AD2CP:
       name: ensemble
   ensemble_bt:
     .*\.AD2CP:
       name: ensemble_bt
-  ensemble_echo:
-    .*\.AD2CP:
-      name: ensemble_echo
+  # ensemble_echo:
+  #   .*\.AD2CP:
+  #     name: ensemble_echo
   status:
     .*\.AD2CP:
       name: status
   status_bt:
     .*\.AD2CP:
       name: status_bt
-  status_echo:
-    .*\.AD2CP:
-      name: status_echo
+  # status_echo:
+  #   .*\.AD2CP:
+  #     name: status_echo
 
   active_configuration:
     .*\.AD2CP:
