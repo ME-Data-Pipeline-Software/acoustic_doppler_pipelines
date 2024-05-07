@@ -21,6 +21,10 @@ class SigVM(IngestPipeline):
 
     def hook_customize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset before qc is applied
+        
+        # Remove GPS coords if a file doesn't exist
+        if 'time' in dataset["time_gps"].dims:
+            dataset["time_gps"] = dataset["time_gps"].swap_dims(time="time_gps").drop("time")
 
         ## Set depth to be the distance to the seafloor, and remove data beyond it
         dist = None

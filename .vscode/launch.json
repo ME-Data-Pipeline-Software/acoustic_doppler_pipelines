@@ -28,10 +28,27 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}//runner.py",
+            "justMyCode": false,
             "console": "integratedTerminal",
             "args": [
                 "ingest",
-                "/data/Missions/20240408-pisces_dabob_bay/pisces_dabob_20240408/adcp/signature_1000_20240410T150217UTC.SigVM",
+                "signature_1000_20240410T232846UTC.SigVM",
+            ]
+        },
+        {
+            "name": "Debug SigVM VAP",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}//runner.py",
+            "justMyCode": false,
+            "console": "integratedTerminal",
+            "args": [
+                "vap",
+                "pipelines/vap_sigvm/config/pipeline.yaml",
+                "--begin",
+                "20240408",
+                "--end",
+                "20240411"
             ]
         },
     ]

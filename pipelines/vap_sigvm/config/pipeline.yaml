@@ -1,0 +1,17 @@
+classname: pipelines.vap_sigvm.pipeline.VapSigVM
+parameters:
+  datastreams:
+    - asv.sigvm.b1
+
+triggers: []
+
+retriever:
+  path: pipelines/vap_sigvm/config/retriever.yaml
+
+dataset:
+  path: pipelines/vap_sigvm/config/dataset.yaml
+
+quality:
+  path: shared/quality.yaml
+storage:
+  path: shared/storage.yaml
