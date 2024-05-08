@@ -2,7 +2,9 @@ import pandas as pd
 import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
-from tsdat import TransformationPipeline
+from tsdat import TransformationPipeline, FileSystem
+
+from .writers import CSVWriter
 
 
 class VapSigVM(TransformationPipeline):
@@ -19,6 +21,43 @@ class VapSigVM(TransformationPipeline):
     def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset after qc is applied
         # but before it gets saved to the storage area
+        
+        # Create additional storage handler to save CSV file(s)
+        # All 2D variables should have been dropped
+        storage = FileSystem()
+        storage.parameters.storage_root = self.storage.parameters.storage_root
+        storage.parameters.data_storage_path = self.storage.parameters.data_storage_path
+        storage.parameters.data_filename_template = (
+            self.storage.parameters.data_filename_template
+        )
+        storage.handler.writer = CSVWriter()
+
+        # 1D vars
+        csv_vars = [
+            "depth",
+            "heading",
+            "pitch",
+            "roll",
+            "pressure",
+            "temperature",
+        ]
+        ds_csv = dataset[csv_vars]
+        
+        # Convert -9999 fillvalue to nan for interp and mean
+        lat = dataset["latitude_gps"].where(dataset["latitude_gps"]!=dataset["latitude_gps"]._FillValue)
+        lon = dataset["longitude_gps"].where(dataset["longitude_gps"]!=dataset["longitude_gps"]._FillValue)
+        ds_csv["latitude"] = lat.interp(time_gps=dataset["time"])
+        ds_csv["longitude"] = lon.interp(time_gps=dataset["time"])
+        ds_csv = ds_csv.drop("time_gps")
+
+        # Add 2D vars
+        U_mag = dataset["U_mag"].where(dataset["U_mag"]!=dataset["U_mag"]._FillValue)
+        U_dir = dataset["U_dir"].where(dataset["U_dir"]!=dataset["U_dir"]._FillValue)
+        ds_csv["U_mag"] = U_mag.mean("range")
+        ds_csv["U_dir"] = U_dir.mean("range")
+
+        storage.save_data(ds_csv)
+
         return dataset
 
     def hook_plot_dataset(self, ds: xr.Dataset):
@@ -122,7 +161,7 @@ class VapSigVM(TransformationPipeline):
                 ds["latitude_gps"],
                 c=ds["U_mag"].mean("range").interp(time=ds["time_gps"]).values,
                 cmap="Blues",
-                s=100,
+                s=200,
             )
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
             ax.quiver(

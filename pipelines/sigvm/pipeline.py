@@ -37,7 +37,7 @@ class SigVM(IngestPipeline):
             dist = dist_bt.interp({"time_bt": dataset["time"]})
         # And set depth (otherwise don't)
         if dist is not None:
-            dist = dist.where(dist > 0, 9999)  # Assume infinite depth
+            dist = dist.where(dist > 0, np.nan)  # Remove less than 0
             dataset["depth"].values = dataset.h_deploy + dist
             api.clean.nan_beyond_surface(dataset, inplace=True)
 

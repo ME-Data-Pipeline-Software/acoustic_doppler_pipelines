@@ -2,131 +2,114 @@ classname: tsdat.io.retrievers.StorageRetriever
 
 coords:
   time:
-      name: time
-      # data_converters:
-      #   - classname: tsdat.io.converters.StringToDatetime
-      #     format: "%Y-%m-%dT%H:%M:%S"
-      #     timezone: UTC
+    name: time
   time_bt:
-      name: time_bt
-      # data_converters:
-      #   - classname: tsdat.io.converters.StringToDatetime
-      #     format: "%Y-%m-%dT%H:%M:%S"
-      #     timezone: UTC
-  # time_echo:
-  #     name: time_echo
-  #     # data_converters:
-  #     #   - classname: tsdat.io.converters.StringToDatetime
-  #     #     format: "%Y-%m-%dT%H:%M:%S"
-  #     #     timezone: UTC
+    name: time_bt
   time_gps:
-      name: time_gps
+    name: time_gps
   range:
-      name: range
-  # range_echo:
-  #     name: range_echo
+    name: range
   dir:
-      name: dir
+    name: dir
   inst:
-      name: inst
+    name: inst
   earth:
-      name: earth
+    name: earth
 
 data_vars:
   vel:
-      name: vel
+    name: vel
   amp:
-      name: amp
+    name: amp
   corr:
-      name: corr
-  # echo:
-  #     name: echo
+    name: corr
 
   vel_bt:
-      name: vel_bt
+    name: vel_bt
   dist_bt:
-      name: dist_bt
+    name: dist_bt
   fom_bt:
-      name: fom_bt
+    name: fom_bt
 
   le_dist_alt:
-      name: le_dist_alt
+    name: le_dist_alt
   le_quality_alt:
-      name: le_quality_alt
+    name: le_quality_alt
   ast_dist_alt:
-      name: ast_dist_alt
+    name: ast_dist_alt
   ast_quality_alt:
-      name: ast_quality_alt
+    name: ast_quality_alt
   ast_offset_time_alt:
-      name: ast_offset_time_alt
+    name: ast_offset_time_alt
   pressure_alt:
-      name: pressure_alt
+    name: pressure_alt
 
+  U_mag:
+    name: U_mag 
+  U_dir:
+    name: U_dir
   heading:
-      name: heading
+    name: heading
   pitch:
-      name: pitch
+    name: pitch
   roll:
-      name: roll
+    name: roll
+  depth:
+    name: depth
   orientmat:
-      name: orientmat
+    name: orientmat
   beam2inst_orientmat:
-      name: beam2inst_orientmat
+    name: beam2inst_orientmat
   speed_of_sound:
-      name: speed_of_sound
+    name: speed_of_sound
   pressure:
-      name: pressure
+    name: pressure
   temperature:
-      name: temperature
+    name: temperature
 
   transmit_energy:
-      name: transmit_energy
+    name: transmit_energy
   transmit_energy_bt:
-      name: transmit_energy_bt
-  # transmit_energy_echo:
-  #     name: xmit_energy_echo
+    name: transmit_energy_bt
+
   error:
-      name: error
+    name: error
   error_bt:
-      name: error_bt
-  # error_echo:
-  #     name: error_echo
+    name: error_bt
+
   ensemble:
-      name: ensemble
+    name: ensemble
   ensemble_bt:
-      name: ensemble_bt
-  # ensemble_echo:
-  #     name: ensemble_echo
+    name: ensemble_bt
+
   status:
-      name: status
+    name: status
   status_bt:
-      name: status_bt
-  # status_echo:
-  #     name: status_echo
+    name: status_bt
 
   active_configuration:
-      name: active_configuration
+    name: active_configuration
   low_voltage_skip_flag:
-      name: low_voltage_skip_flag
+    name: low_voltage_skip_flag
   boost_running_flag:
-      name: boost_running_flag
+    name: boost_running_flag
   telemetry_data_flag:
-      name: telemetry_data_flag
+    name: telemetry_data_flag
   latitude_gps:
-      name: latitude_gps
+    name: latitude_gps
   longitude_gps:
-      name: longitude_gps
+    name: longitude_gps
   fix_gps:
-      name: fix_gps
+    name: fix_gps
   n_sat_gps:
-      name: n_sat_gps
+    name: n_sat_gps
   elevation_gps:
-      name: elevation_gps
+    name: elevation_gps
   hdop_gps:
-      name: hdop_gps
+    name: hdop_gps
   dir_over_grnd_gps:
-      name: dir_over_grnd_gps
+    name: dir_over_grnd_gps
   speed_over_grnd_gps:
-      name: speed_over_grnd_gps
+    name: speed_over_grnd_gps
   heading_gps:
-      name: heading_gps
+    name: heading_gps
