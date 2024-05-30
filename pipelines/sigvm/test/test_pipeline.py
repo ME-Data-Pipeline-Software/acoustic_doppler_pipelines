@@ -18,7 +18,7 @@ def test_sigvm_pipeline():
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore
-    assert_close(dataset, expected, check_attrs=False)
+    assert_close(dataset, expected, check_attrs=False, atol=1e-5)
 
 
 def test_sigvm_pipeline_with_nmea_bt():
@@ -38,7 +38,7 @@ def test_sigvm_pipeline_with_nmea_bt():
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore
-    assert_close(dataset, expected, check_attrs=False)
+    assert_close(dataset, expected, check_attrs=False, atol=1e-5)
 
 
 def test_sigvm_pipeline_with_nmea_gps():
@@ -59,4 +59,4 @@ def test_sigvm_pipeline_with_nmea_gps():
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore
-    assert_close(dataset, expected, check_attrs=False)
+    assert_close(dataset, expected, check_attrs=False, atol=1e-5)

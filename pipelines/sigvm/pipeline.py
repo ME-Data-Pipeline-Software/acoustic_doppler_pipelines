@@ -88,8 +88,8 @@ class SigVM(IngestPipeline):
                     warnings.warn(
                         "No GPS recorded. Velocity correction completed with BT alone."
                     )
-                    dataset.attrs['vel_gps_correction']
                     vel_gps = dataset["vel"][:, 0, :] * np.nan
+                    dataset.attrs['vel_gps_correction'] = 0
                 else:
                     raise Exception("No GPS data available.")
             # Otherwise calculate GPS velocity
