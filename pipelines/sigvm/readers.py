@@ -11,7 +11,6 @@ import mhkit.dolfyn as dolfyn
 from mhkit.dolfyn.adp import api
 from tsdat import DataReader
 from tsdat.qc.checkers import CheckMonotonic
-from tsdat.qc.handlers import RemoveFailedValues
 
 
 class SigVMReader(DataReader):
@@ -182,7 +181,6 @@ class NMEAReader(DataReader):
 
         ds = xr.Dataset.from_dict(new_dict)
         if any(ds["rmc_time"]):
-            ds = ds.rename({"rmc_time": "time_gps"})
             ds = ds.interp(
                 gga_time=ds["rmc_time"],
                 vtg_time=ds["rmc_time"],

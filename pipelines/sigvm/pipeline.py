@@ -73,7 +73,7 @@ class SigVM(IngestPipeline):
 
         ## Motion Correction
         # Correct velocity with bottom track
-        if getattr(dataset, "vel_bt_correction"):
+        if getattr(dataset, "vel_bt_correction") and not getattr(dataset, "vel_gps_correction"):
             # Subtract bottom track from water velocity
             vel_corrected = dataset["vel"] - dataset["vel_bt"].interp(
                 {"time_bt": dataset["time"]}
@@ -81,15 +81,14 @@ class SigVM(IngestPipeline):
             dataset["vel"].values = vel_corrected.values
 
         # Correct velocity with GPS or with both GPS and BT
-        elif getattr(dataset, "vel_gps_correction") or getattr(
-            dataset, "vel_correction"
-        ):
+        elif getattr(dataset, "vel_gps_correction"):
             # If GPS file is missing (time_gps is set as time)
             if (dataset["time"] == dataset["time_gps"]).all():
-                if getattr(dataset, "vel_correction"):
+                if getattr(dataset, "vel_bt_correction"):
                     warnings.warn(
                         "No GPS recorded. Velocity correction completed with BT alone."
                     )
+                    dataset.attrs['vel_gps_correction']
                     vel_gps = dataset["vel"][:, 0, :] * np.nan
                 else:
                     raise Exception("No GPS data available.")
@@ -115,7 +114,7 @@ class SigVM(IngestPipeline):
                 vel_gps[:3] = dataset["vel_gps"].interp(time_gps=dataset["time"]).values
 
             # If using both GPS and BT, fill missing BT with GPS timestamps
-            if getattr(dataset, "vel_correction") and dist is not None:
+            if getattr(dataset, "vel_bt_correction") and dist is not None:
                 vel_bt = dataset["vel_bt"].interp({"time_bt": dataset["time"]})
                 # Double negative (negate vel_gps to put in same coordinate system as vel_bt,
                 # negate again to add to velocity to stay consistent with this elif block)
@@ -128,7 +127,7 @@ class SigVM(IngestPipeline):
                 )
             elif dist is None:
                 raise Exception(
-                    "Cannot use 'vel_correction' if 'depth' is unknown. Please set "
+                    "Cannot use 'vel_bt_correction' if 'depth' is unknown. Please set "
                     "'use_alt_depth' or 'use_bt_depth' to 1."
                 )
             else:

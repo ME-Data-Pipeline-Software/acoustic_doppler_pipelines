@@ -1,7 +1,7 @@
 # Down-looking ADCP Ingestion Pipeline
 
 This pipeline reads in binary files output from a vessel-mounted ADCP, including those read by
-Winriver2 or VMDAs. It is currently set up to read in water-track data from a 4 beam TRDI ADCP. You 
+WinRiver2 or VMDAS. It is currently set up to read in water-track data from a 4 beam TRDI ADCP. You 
 may need to add or remove some variables if they aren't saved, as detailed below.
 
 This README file contains instructions for running and testing this pipeline. Datafiles are saved under

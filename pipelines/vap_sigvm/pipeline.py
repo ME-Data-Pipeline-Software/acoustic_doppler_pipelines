@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 from tsdat import TransformationPipeline, FileSystem
 
-from .writers import CSVWriter
+from shared.writers import CSVWriter
 
 
 class VapSigVM(TransformationPipeline):

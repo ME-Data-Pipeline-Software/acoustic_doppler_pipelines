@@ -13,10 +13,10 @@ attrs:
   title: ADV-mounted Sig1000
   description: >-
     A Nortek Signature 1000 kHz was mounted on the ASV Jonesy to gather spatial
-    measurements of current velocity in Dabob Bay. The instrument
-    was mounted on a pole underneath the center of the ASV, between the hulls 0.1 m below waterline.
-    The instrument is measuring water-track, bottom-track, altimeter at a sampling rate
-    of 2 Hz, integrated with GPS data from an Advanced Navigation Compass GNSS.
+    measurements of current velocity in Dabob Bay. The instrument was mounted on a pole
+    underneath the center of the ASV, between the hulls 0.1 m below waterline. The
+    instrument is measuring water-track, bottom-track, altimeter at a sampling rate of 2
+    Hz, integrated with GPS data from an Advanced Navigation Compass GNSS.
   keywords: water velocity, water direction
   # Attribution
   creator_country: USA
@@ -55,9 +55,8 @@ attrs:
   data_level: b1
 
   # Pipeline specific parameters
-  vel_bt_correction: 0 # Use bottom track to correct velocity measurements?
-  vel_gps_correction: 0 # Or use GPS? 
-  vel_correction: 1  # Use both? (Or neither?)
+  vel_bt_correction: 1 # Use bottom track to correct velocity measurements?
+  vel_gps_correction: 1 # Or use GPS? (Or both?)
   use_alt_depth: 0 # Use altimeter measurements to track depth?
   use_bt_depth: 1 # Or bottom track range? (Or neither?)
 

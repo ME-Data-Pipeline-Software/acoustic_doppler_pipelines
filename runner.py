@@ -125,5 +125,3 @@ def vap(
 
 if __name__ == "__main__":
     app()
-
-# python runner.py vap pipelines/vap_sigvm/config/pipeline.yaml --begin 20240409.143000 --end 20240409.203000
