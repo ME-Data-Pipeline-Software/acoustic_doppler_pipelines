@@ -2,9 +2,7 @@ import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
 from mhkit.dolfyn.adp import api
-from tsdat import IngestPipeline, FileSystem
-
-from shared.writers import MatlabWriter
+from tsdat import IngestPipeline
 
 
 class UpLookingADCP(IngestPipeline):
@@ -29,12 +27,6 @@ class UpLookingADCP(IngestPipeline):
     def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
         # (Optional) Use this hook to modify the dataset after qc is applied
         # but before it gets saved to the storage area
-
-        # Save mat file
-        storage = FileSystem()
-        storage.handler.writer = MatlabWriter()
-
-        storage.save_data(dataset)
 
         return dataset
 

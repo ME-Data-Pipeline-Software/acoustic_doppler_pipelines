@@ -48,8 +48,10 @@ attrs:
   data_level: b1
 
   # Pipeline specific parameters
-  vel_bt_correction: 1  # Use bottom track to correct velocity measurements?
-  vel_gps_correction: 0  # Or use GPS? (Or neither?)
+  vel_bt_correction: 1 # Use bottom track to correct velocity measurements?
+  vel_gps_correction: 1 # Or use GPS? (Or both?)
+  use_rdi_depth: 1 # Use depth calculated by RDI (includes configured instrument depth)
+  use_bt_depth: 0 # Or bottom track range? (Or neither?)
 
 coords:
   time:
@@ -393,6 +395,12 @@ data_vars:
       units: deg E
       long_name: Longitude
       standard_name: longitude
+  vel_gps:
+    dims: ["earth", "time_gps"]
+    dtype: float32
+    attrs:
+      units: m/s
+      long_name: Velocity from GPS
   fix_gps:
     dims: [time_gps]
     dtype: int8

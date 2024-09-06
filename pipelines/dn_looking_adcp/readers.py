@@ -17,21 +17,10 @@ class DnFacingADCPReader(DataReader):
     ---------------------------------------------------------------------------------"""
 
     class Parameters(BaseModel, extra=Extra.forbid):
-        """If your CustomDataReader should take any additional arguments from the
-        retriever configuration file, then those should be specified here.
-
-        e.g.,:
-        custom_parameter: float = 5.0
-
-        """
-
         depth_offset: float = 0.5
-        salinity: float = 35
         magnetic_declination: float = 0
 
     parameters: Parameters = Parameters()
-    """Extra parameters that can be set via the retrieval configuration file. If you opt
-    to not use any configuration parameters then please remove the code above."""
 
     def read(self, input_key: str) -> Union[xr.Dataset, Dict[str, xr.Dataset]]:
         """-------------------------------------------------------------------
