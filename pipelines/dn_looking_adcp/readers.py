@@ -43,7 +43,8 @@ class DnFacingADCPReader(DataReader):
         ds["depth"] = ds.h_deploy + ds["dist_bt"].mean("beam")
 
         # Rotate to Earth coordinates
-        dolfyn.set_declination(ds, self.parameters.magnetic_declination)
-        dolfyn.rotate2(ds, "earth")
+        if not ds.coord_sys == "ship":
+            dolfyn.set_declination(ds, self.parameters.magnetic_declination)
+            dolfyn.rotate2(ds, "earth")
 
         return ds

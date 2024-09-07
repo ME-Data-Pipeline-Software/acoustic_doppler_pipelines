@@ -55,6 +55,7 @@ class DnLookingADCP(IngestPipeline):
             "heading_gps" in dataset
             and not all(dataset["heading_gps"] == dataset["heading_gps"]._FillValue)
             and len(dataset["heading_gps"]) >= (0.5 * len(dataset["time"]))
+            and (not dataset.coord_sys == "ship")
         ):
             # Remove magnetic declination and set heading based on GPS
             dataset.attrs["rotate_vars"] = ["vel", "vel_bt"]
@@ -86,6 +87,10 @@ class DnLookingADCP(IngestPipeline):
                 dataset["time"], dataset["heading"], dataset["pitch"], dataset["roll"]
             )
             # Rotate to earth now in true coordinates
+            dolfyn.rotate2(dataset, "earth")
+
+        elif dataset.coord_sys == "ship":
+            # If WinRiver saved in "ship" coordinates, all of the above is already applied
             dolfyn.rotate2(dataset, "earth")
 
         ## Motion Correction
