@@ -63,17 +63,19 @@ class DnLookingADCP(IngestPipeline):
 
             # Manually realign beam 3 (y-axis in Nortek coordinate system) to GPS heading
             if "rdi" in dataset.inst_make.lower():
+                offset = dataset.attrs["heading_misalign_deg"]
                 warnings.warn(
-                    "Assumed TRDI ADCP Y-axis (beam 3 notch) rotated -45 degrees (to port). Switch sign in "
-                    "dn_looking_adcp/pipeline.py to (+) if rotated to starboard."
+                    f"Using heading misalignment of {offset}. Update dn_looking_adcp/pipeline.py as necessary."
+                    "FYI: Heading misaligment should be -45 degrees if TRDI ADCP Y-axis (beam 3 notch) is"
+                    "rotated 45 degrees to port. It should be +45 if rotated 45 degrees to starboard."
                 )
             else:
+                dataset.attrs["heading_misalign_deg"] = -45
                 warnings.warn(
                     "Assumed Nortek ADCP X-axis rotated -45 degrees (to port). Switch sign in "
                     "dn_looking_adcp/pipeline.py to (+) if rotated to starboard."
                 )
             # Change sign or value if necessary
-            dataset.attrs["heading_misalign_deg"] = -45
             dataset["heading"] = (
                 (dataset["heading_gps"] + dataset.attrs["heading_misalign_deg"]) % 360
             ).interp(time_gps=dataset["time"])
