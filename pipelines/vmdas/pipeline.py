@@ -25,7 +25,7 @@ class VmdasADCP(IngestPipeline):
         # Remove GPS coords if a file doesn't exist
         if "time" in dataset["time_gps"].dims:
             dataset["time_gps"] = (
-                dataset["time_gps"].swap_dims(time="time_gps").drop("time")
+                dataset["time_gps"].swap_dims(time="time_gps").drop_vars("time")
             )
 
         ## Set depth to be the distance to the seafloor, and remove data beyond it
