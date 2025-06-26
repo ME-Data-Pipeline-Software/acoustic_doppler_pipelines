@@ -1,7 +1,7 @@
 # Down-looking ADCP Ingestion Pipeline
 
-This pipeline reads in binary files output from a vessel-mounted ADCP, including those read by
-Winriver2 or VMDAs. It is currently set up to read in water-track data from a 4 beam TRDI ADCP. You 
+This pipeline reads in binary files output from a vessel-mounted ADCP created using
+Winriver2. It is currently set up to read in water-track data from a 4 beam TRDI ADCP. You 
 may need to add or remove some variables if they aren't saved, as detailed below.
 
 This README file contains instructions for running and testing this pipeline. Datafiles are saved under
@@ -9,14 +9,14 @@ This README file contains instructions for running and testing this pipeline. Da
 saved in the corresponding "./storage/root/ancillary" folder.
 
 ## Data Collection
-The ADCP should be mounted below water at a -45 degree angle. For a TRDI instrument, this means the 
-Y-axis (beam 3 notch) is pointed to port when the ADCP is upside down. For a Nortek instrument, this
-means the X-axis is pointed to port when the ADCP is upside down. A bin size of 0.5 m and a blank distance of 0.5 m are good general parameters. Enable bottom track if the water depth is within the ADCP's range, but turn it off if not. Sample as fast as possible, typically 2 Hz.
+The ADCP should be mounted below water at a 45 degree angle. For a TRDI instrument, this means the 
+Y-axis (beam 3 notch) is pointed to port when the ADCP is upside down. A bin size of 1-2 m and a blank distance of 1-2 m are good general parameters. Enable bottom track if the water depth is within the ADCP's range, but turn it off if not. Sample as fast as possible, typically 2 Hz.
 
 The GPS should be mounted directly above the ADCP and set it to output NMEA sentences at 2 Hz if 
-bottom track is running and 10 Hz if not. Turn on the GGA (position) and VTG (speed) sentences, and HDT
+bottom track is running and 2-10 Hz if not. Turn on the GGA (position) and VTG (speed) sentences, and HDT
 (heading) if possible. If HDT is turned on, make sure to align the GPS heading longitudinally with the 
 vessel bow and stern.
+
 
 ## Prerequisites
 

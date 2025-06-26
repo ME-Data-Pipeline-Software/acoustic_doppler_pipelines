@@ -1,0 +1,16 @@
+classname: pipelines.winriver2.pipeline.WinRiver2ADCP
+
+triggers:
+  - .*winriver*\.PD0
+
+retriever:
+  path: pipelines/winriver2/config/retriever.yaml
+
+dataset:
+  path: pipelines/winriver2/config/dataset.yaml
+
+quality:
+  path: pipelines/winriver2/config/quality.yaml
+
+storage:
+  path: shared/storage.yaml

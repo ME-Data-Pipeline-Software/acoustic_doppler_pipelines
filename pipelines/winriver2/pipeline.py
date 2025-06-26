@@ -11,11 +11,10 @@ from tsdat import IngestPipeline
 from shared.gps import process_gps_data
 
 
-class DnLookingADCP(IngestPipeline):
+class WinRiver2ADCP(IngestPipeline):
     """---------------------------------------------------------------------------------
-    This is an example ingestion pipeline meant to demonstrate how one might set up a
-    pipeline using this template repository.
-
+    This pipeline runs motion correction of ADCP measurements collected from a vessel
+    using the Teledyne WinRiver2 software.
     ---------------------------------------------------------------------------------"""
 
     def hook_customize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
@@ -47,8 +46,8 @@ class DnLookingADCP(IngestPipeline):
         # And set depth (otherwise don't)
         if dist is not None:
             dist = dist.where(dist > 0, np.nan)  # Remove less than 0
-            dataset["depth"].values = dataset.h_deploy + dist
-            api.clean.nan_beyond_surface(dataset, inplace=True)
+            dataset["depth"].values = dataset.attrs["range_offset"] + dist
+            api.clean.remove_surface_interference(dataset, inplace=True)
 
         # Realign ADCP based on GPS heading
         if (
@@ -63,19 +62,12 @@ class DnLookingADCP(IngestPipeline):
             dolfyn.rotate2(dataset, "inst")
 
             # Manually realign beam 3 (y-axis in Nortek coordinate system) to GPS heading
-            if "rdi" in dataset.inst_make.lower():
-                offset = dataset.attrs["heading_misalign_deg"]
-                warnings.warn(
-                    f"Using heading misalignment of {offset}. Update dn_looking_adcp/pipeline.py as necessary."
-                    "FYI: Heading misaligment should be -45 degrees if TRDI ADCP Y-axis (beam 3 notch) is"
-                    "rotated 45 degrees to port. It should be +45 if rotated 45 degrees to starboard."
-                )
-            else:
-                dataset.attrs["heading_misalign_deg"] = -45
-                warnings.warn(
-                    "Assumed Nortek ADCP X-axis rotated -45 degrees (to port). Switch sign in "
-                    "dn_looking_adcp/pipeline.py to (+) if rotated to starboard."
-                )
+            offset = dataset.attrs["heading_misalign_deg"]
+            warnings.warn(
+                f"Using heading misalignment of {offset}. Update dn_looking_adcp/pipeline.py as necessary."
+                "FYI: Heading misaligment should be 45 degrees if TRDI ADCP Y-axis (beam 3 notch) is"
+                "rotated 45 degrees to port. It should be -45 if rotated 45 degrees to starboard."
+            )
             # Change sign or value if necessary
             dataset["heading"] = (
                 (dataset["heading_gps"] + dataset.attrs["heading_misalign_deg"]) % 360
@@ -158,8 +150,8 @@ class DnLookingADCP(IngestPipeline):
             dataset["vel"].values = (dataset["vel"] + vel_cor).values
 
         # Speed and Direction
-        dataset["U_mag"].values = dataset.velds.U_mag
-        dataset["U_dir"].values = dataset.velds.U_dir
+        dataset["U_mag"] = dataset.velds.U_mag
+        dataset["U_dir"] = dataset.velds.U_dir
 
         return dataset
 
@@ -200,7 +192,7 @@ class DnLookingADCP(IngestPipeline):
             ax[0].set_ylabel(r"Range [m]")
             ax[0].set_ylim([-y_max, 0])
             add_colorbar(ax[0], velE, r"Velocity East [m/s]")
-            velE.set_clim(-3, 3)
+            velE.set_clim(ds["vel"].attrs["valid_min"], ds["vel"].attrs["valid_max"])
 
             velN = ax[1].pcolormesh(
                 date,
@@ -214,7 +206,7 @@ class DnLookingADCP(IngestPipeline):
             ax[1].set_ylabel(r"Range [m]")
             ax[1].set_ylim([-y_max, 0])
             add_colorbar(ax[1], velN, r"Velocity North [m/s]")
-            velN.set_clim(-3, 3)
+            velN.set_clim(ds["vel"].attrs["valid_min"], ds["vel"].attrs["valid_max"])
 
             plot_file = self.get_ancillary_filepath(title="current")
             fig.savefig(plot_file)
@@ -272,6 +264,7 @@ class DnLookingADCP(IngestPipeline):
                 cmap="Blues",
                 s=100,
             )
+            h.set_clim(0, ds["vel"].attrs["valid_max"])
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
             ax.quiver(
                 ds["longitude_gps"],
