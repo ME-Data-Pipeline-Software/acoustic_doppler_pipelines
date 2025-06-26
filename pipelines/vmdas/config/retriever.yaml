@@ -1,0 +1,99 @@
+classname: tsdat.io.retrievers.DefaultRetriever
+readers:
+  .*20250528.*:
+    classname: pipelines.vmdas.readers.VmdasADCPReader
+    parameters:
+      depth_offset: 1.0
+      heading_misalignment: 55
+  .*20250530.*:
+    classname: pipelines.vmdas.readers.VmdasADCPReader
+    parameters:
+      depth_offset: 1.0
+      heading_misalignment: 30
+
+
+coords:
+  time:
+    name: time
+  time_gps:
+    name: time_gps
+  range:
+    name: range
+  dir:
+    name: dir
+  inst:
+    name: inst
+  earth:
+    name: earth
+
+data_vars:
+  vel:
+    name: vel
+  amp:
+    name: amp
+  corr:
+    name: corr
+  prcnt_gd:
+    name: prcnt_gd
+
+  vel_bt:
+    name: vel_bt
+  corr_bt:
+    name: corr_bt
+  amp_bt:
+    name: amp_bt
+  prcnt_gd_bt:
+    name: prcnt_gd_bt
+  dist_bt:
+    name: dist_bt
+
+  depth:
+    name: depth
+  heading:
+    name: heading
+  pitch:
+    name: pitch
+  roll:
+    name: roll
+  orientmat:
+    name: orientmat
+  beam2inst_orientmat:
+    name: beam2inst_orientmat
+  speed_of_sound:
+    name: c_sound
+  pressure:
+    name: pressure
+  temperature:
+    name: temp
+  salinity:
+    name: salinity
+  number:
+    name: number
+  builtin_test_fail:
+    name: builtin_test_fail
+  min_preping_wait:
+    name: min_preping_wait
+
+  latitude_gps:
+    name: latitude_gps
+  longitude_gps:
+    name: longitude_gps
+  fix_gps:
+    name: fix_gps
+  n_sat_gps:
+    name: n_sat_gps
+  hdop_gps:
+    name: hdop_gps
+  elevation_gps:
+    name: elevation_gps
+  rtk_age_gps:
+    name: rtk_age_gps
+  speed_over_grnd_gps:
+      name: speed_over_grnd_gps
+      data_converters:
+        - classname: tsdat.io.converters.UnitsConverter
+          input_units: kt
+  dir_over_grnd_gps:
+    name: dir_over_grnd_gps
+  heading_gps:
+    name: heading_gps 

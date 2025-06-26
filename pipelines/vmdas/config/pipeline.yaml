@@ -1,0 +1,18 @@
+classname: pipelines.vmdas.pipeline.VmdasADCP
+
+triggers:
+  - .*\.ENR
+  - .*\.ENS
+  - .*\.ENX
+
+retriever:
+  path: pipelines/vmdas/config/retriever.yaml
+
+dataset:
+  path: pipelines/vmdas/config/dataset.yaml
+
+quality:
+  path: pipelines/vmdas/config/quality.yaml
+
+storage:
+  path: shared/storage.yaml

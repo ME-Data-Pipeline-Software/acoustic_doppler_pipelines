@@ -1,0 +1,357 @@
+attrs:
+  # https://ioos.github.io/ioos-metadata/ioos-metadata-profile-v1-2.html
+  # https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
+  # Dataset Description
+  Conventions: "CD-1.6, ACDD-1.3, IOOS-1.2"
+  featureType: timeseries
+  id: ADCP
+  infoUrl: "data url here"
+  license: Freely Distributed
+  naming_authority: gov.pnnl.sequim
+  standard_name_vocabulary: CF Standard Name Table v79
+  summary: Workhorse 300 kHz water current measurements collected during a transect survey in Clallam Bay, WA.
+
+  title: Vessel-Mounted ADCP
+  description: Add summary here
+  keywords: Sequim, data, marine, channel, water velocity, water direction, flows
+  # Attribution
+  creator_country: USA
+  creator_email: james.mcvey@pnnl.gov
+  creator_institution: Pacific Northwest National Laboratory (PNNL) - Sequim
+  creator_institution_url: https://www.pnnl.gov/
+  creator_sector: other
+  creator_type: institution
+  creator_url: https://www.pnnl.gov/
+  institution: Pacific Northwest National Laboratory (PNNL)
+  publisher_country: USA
+  publisher_email: ""
+  publisher_institution: Pacific Northwest National Laboratory (PNNL) - Sequim
+  publisher_url: https://www.pnnl.gov/
+
+  # Platform and Instrument
+  platform: vessel 
+  platform_name: R/V Desdemona
+  platform_vocabulary: https://mmisw.org/ont/ioos/platform
+  instrument: In Situ/Laboratory Instruments > Current/Wind Meters > Current Meters
+  instrument_vocabulary: GCMD Instrument Keywords #https://gcmd.earthdata.nasa.gov/KeywordViewer/
+  make_model: Teledyne RDI Workhorse 1200
+
+  # Geospatial and Time
+  geospatial_bounds: Point ((48.0804 -123.0449))
+  geospatial_bounds_crs: "EPSG:4326"
+  time_coverage_start: "2022-05-18T21:28:46"
+  time_coverage_duration: "01:00:00"
+  time_coverage_resolution: "00:00:00.500"
+
+  # TSDAT specific parameters
+  location_id: clllm
+  dataset_name: trdi300
+  data_level: a1
+
+  # Pipeline specific parameters
+  vel_bt_correction: 0 # Use bottom track to correct velocity measurements?
+  vel_gps_correction: 1 # Or use GPS? (Or both?)
+  use_rdi_depth: 1 # Use depth calculated by RDI (includes configured instrument depth)
+  use_bt_depth: 0 # Or bottom track range? (Or neither?)
+
+coords:
+  time:
+    dims: [time]
+    dtype: datetime64[ns]
+    attrs:
+      timezone: UTC
+      units: Seconds since 1970-01-01 00:00:00 UTC
+      coverage_content_type: coordinate
+      long_name: Time
+      standard_name: time
+  time_gps:
+    dims: [time_gps]
+    dtype: datetime64[ns]
+    attrs:
+      timezone: UTC
+      units: Seconds since 1970-01-01 00:00:00 UTC
+      coverage_content_type: coordinate
+      long_name: Time
+      standard_name: time
+  range:
+    dims: [range]
+    dtype: float32
+    attrs:
+      description: "Distance to the center of each depth bin"
+      long_name: Profile Range
+      units: m
+      coverage_content_type: coordinate
+  dir:
+    dims: [dir]
+    dtype: str
+    attrs:
+      long_name: Reference Frame
+      units: "1"
+      coverage_content_type: coordinate
+  beam:
+    dims: [beam]
+    data: [1, 2, 3, 4]
+    dtype: int32
+    attrs:
+      long_name: Beam Reference Frame
+      units: "1"
+      coverage_content_type: coordinate
+  inst:
+    dims: [inst]
+    dtype: str
+    attrs:
+      long_name: Instrument Reference Frame
+      units: "1"
+      coverage_content_type: coordinate
+  earth:
+    dims: [earth]
+    dtype: str
+    attrs:
+      long_name: Earth Reference Frame
+      units: "1"
+      coverage_content_type: coordinate
+
+data_vars:
+  vel:
+    dims: [dir, range, time]
+    dtype: float32
+    attrs:
+      units: m s-1
+      long_name: Sea Water Velocity
+      coverage_content_type: physicalMeasurement
+      valid_min: -2
+      valid_max: 2
+  amp:
+    dims: [beam, range, time]
+    dtype: uint8
+    attrs:
+      units: counts
+      long_name: Acoustic Signal Amplitude
+      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_sensor_in_sea_water
+      coverage_content_type: physicalMeasurement
+  corr:
+    dims: [beam, range, time]
+    dtype: uint8
+    attrs:
+      units: counts
+      long_name: Acoustic Signal Correlation
+      standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      coverage_content_type: physicalMeasurement
+  prcnt_gd:
+    dims: [beam, range, time]
+    dtype: uint8
+    attrs:
+      units: "%"
+      long_name: Percent Good
+      standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
+      coverage_content_type: physicalMeasurement
+  dist_bt:
+    dims: [beam, time]
+    dtype: float32
+    attrs:
+      units: m
+      long_name: Bottom Track Depth
+      standard_name: depth_below_platform
+      coverage_content_type: physicalMeasurement
+  vel_bt:
+    dims: [dir, time]
+    dtype: float32
+    attrs:
+      units: m s-1
+      long_name: Bottom Track Velocity
+      standard_name: platform_velocity
+      coverage_content_type: physicalMeasurement
+      valid_min: -10
+      valid_max: 10
+  corr_bt:
+    dims: [beam, time]
+    dtype: uint8
+    attrs:
+      units: counts
+      long_name: Bottom Track Acoustic Signal Correlation
+      standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
+      coverage_content_type: physicalMeasurement
+  amp_bt:
+    dims: [beam, time]
+    dtype: uint8
+    attrs:
+      units: counts
+      long_name: Bottom Track Acoustic Signal Amplitude
+      standard_name: signal_intensity_from_multibeam_acoustic_doppler_velocity_sensor_in_sea_water
+      coverage_content_type: physicalMeasurement
+  prcnt_gd_bt:
+    dims: [beam, time]
+    dtype: uint8
+    attrs:
+      units: "%"
+      long_name: Bottom Track Percent Good
+      standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
+      coverage_content_type: physicalMeasurement
+
+  depth:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Depth
+      standard_name: depth_below_platform
+      units: m
+      positive: down
+  heading:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Heading
+      standard_name: platform_orientation
+      units: degree
+      valid_min: -180
+      valid_max: 180
+  pitch:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Pitch
+      standard_name: platform_pitch
+      units: degree
+      valid_min: -180
+      valid_max: 180
+  roll:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Roll
+      standard_name: platform_roll
+      units: degree
+      valid_min: -180
+      valid_max: 180
+  orientmat:
+    dims: [earth, inst, time]
+    dtype: float32
+    attrs:
+      description: Earth (ENU) to instrument (XYZ) orientation matrix
+      long_name: Orientation Matrix
+      units: "1"
+  beam2inst_orientmat:
+    dims: [beam, inst]
+    dtype: float
+    attrs:
+      description: "Beam to instrument orientation matrix"
+      units: "1"
+  speed_of_sound:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Speed of Sound
+      standard_name: speed_of_sound_in_sea_water
+      units: m/s
+  pressure:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Pressure
+      standard_name: sea_water_pressure
+      units: dbar
+  temperature:
+    dims: [time]
+    dtype: float32
+    attrs:
+      long_name: Temperature
+      standard_name: sea_water_temperature
+      units: degree_C
+  salinity:
+    dims: [time]
+    dtype: float32
+    attrs:
+      units: psu
+      long_name: Salinity
+      standard_name: sea_water_salinity
+  number:
+    dims: [time]
+    dtype: uint32
+    attrs:
+      units: "1"
+      long_name: Ensemble Number
+      standard_name: number_of_observations
+  builtin_test_fail:
+    dims: [time]
+    dtype: bool
+    attrs:
+      units: "1"
+      long_name: Built-In Test Failures
+      standard_name: built_in_test
+  min_preping_wait:
+    dims: [time]
+    dtype: float32
+    attrs:
+      units: s
+      long_name: Minimum Pre-Ping Wait Time
+      standard_name: time_between_measurements
+
+  latitude_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: degree_N
+      long_name: Latitude
+      standard_name: latitude
+  longitude_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: degree_E
+      long_name: Longitude
+      standard_name: longitude
+  vel_gps:
+    dims: ["earth", "time_gps"]
+    dtype: float32
+    attrs:
+      units: m/s
+      long_name: Velocity from GPS
+  fix_gps:
+    dims: [time_gps]
+    dtype: int8
+    attrs:
+      units: "1"
+      long_name: GPS Fix
+      standard_name: gps_fix_type
+  n_sat_gps:
+    dims: [time_gps]
+    dtype: int8
+    attrs:
+      units: count
+      long_name: Number of Satellites
+      standard_name: number_of_satellites
+  hdop_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: "1"
+      long_name: HDOP
+      standard_name: horizontal_dilution_of_precision
+  elevation_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: m
+      long_name: Elevation
+      standard_name: elevation_above_MLLW
+  speed_over_grnd_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: m/s
+      long_name: Platform Speed
+      standard_name: platform_speed_wrt_ground
+  dir_over_grnd_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: degree
+      long_name: Platform Course
+      standard_name: platform_course
+  heading_gps:
+    dims: [time_gps]
+    dtype: float32
+    attrs:
+      units: degree
+      long_name: Platform Direction
+      standard_name: platform_orientation
