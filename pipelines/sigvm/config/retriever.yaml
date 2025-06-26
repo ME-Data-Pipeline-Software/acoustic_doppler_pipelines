@@ -132,56 +132,6 @@ data_vars:
     .*\.AD2CP:
       name: temp
 
-  transmit_energy:
-    .*\.AD2CP:
-      name: xmit_energy
-  transmit_energy_bt:
-    .*\.AD2CP:
-      name: xmit_energy_bt
-  transmit_energy_echo:
-    .*\.AD2CP:
-      name: xmit_energy_echo
-  error:
-    .*\.AD2CP:
-      name: error
-  error_bt:
-    .*\.AD2CP:
-      name: error_bt
-  error_echo:
-    .*\.AD2CP:
-      name: error_echo
-  ensemble:
-    .*\.AD2CP:
-      name: ensemble
-  ensemble_bt:
-    .*\.AD2CP:
-      name: ensemble_bt
-  ensemble_echo:
-    .*\.AD2CP:
-      name: ensemble_echo
-  status:
-    .*\.AD2CP:
-      name: status
-  status_bt:
-    .*\.AD2CP:
-      name: status_bt
-  status_echo:
-    .*\.AD2CP:
-      name: status_echo
-
-  active_configuration:
-    .*\.AD2CP:
-      name: active_config
-  low_voltage_skip_flag:
-    .*\.AD2CP:
-      name: low_volt_skip
-  boost_running_flag:
-    .*\.AD2CP:
-      name: boost_running
-  telemetry_data_flag:
-    .*\.AD2CP:
-      name: telemetry_data
-
   latitude_gps:
     .*\.nmea:
       name: gga_lat

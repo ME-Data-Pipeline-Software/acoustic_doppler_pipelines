@@ -47,8 +47,8 @@ class SigVM(IngestPipeline):
         # And set depth (otherwise don't)
         if dist is not None:
             dist = dist.where(dist > 0, np.nan)  # Remove less than 0
-            dataset["depth"].values = dataset.h_deploy + dist
-            api.clean.nan_beyond_surface(dataset, inplace=True)
+            dataset["depth"].values = dataset.attrs["range_offset"] + dist
+            api.clean.remove_surface_interference(dataset, inplace=True)
 
         ## Realign ADCP based on GPS heading if enough GPS data is provided
         if (
@@ -148,8 +148,8 @@ class SigVM(IngestPipeline):
             dataset["vel"].values = (dataset["vel"] + vel_cor).values
 
         # Speed and Direction
-        dataset["U_mag"].values = dataset.velds.U_mag
-        dataset["U_dir"].values = dataset.velds.U_dir
+        dataset["U_mag"] = dataset.velds.U_mag
+        dataset["U_dir"] = dataset.velds.U_dir
 
         return dataset
 
@@ -261,6 +261,7 @@ class SigVM(IngestPipeline):
                 cmap="Blues",
                 s=100,
             )
+            h.set_clim(0, ds["vel"].attrs["valid_max"])
             fig.colorbar(h, ax=ax, label="Current Speed [m/s]")
             ax.quiver(
                 ds["longitude_gps"][0::10],

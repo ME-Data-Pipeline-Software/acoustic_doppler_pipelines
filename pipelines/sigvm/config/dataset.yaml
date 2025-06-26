@@ -177,23 +177,6 @@ data_vars:
       standard_name: echo_sounder_signal_intensity
       units: dB
 
-  U_mag:
-    dims: [range, time]
-    dtype: float32
-    attrs:
-      long_name: Water Speed
-      standard_name: sea_water_speed
-      units: m/s
-      valid_min: -3
-      valid_max: 3
-  U_dir:
-    dims: [range, time]
-    dtype: float32
-    attrs:
-      long_name: Water Direction
-      standard_name: sea_water_to_direction
-      units: degrees
-
   vel_bt:
     dims: [dir, time_bt]
     dtype: float32
@@ -272,7 +255,7 @@ data_vars:
     attrs:
       long_name: Heading
       standard_name: platform_orientation
-      units: deg
+      units: degree
       valid_min: 0
       valid_max: 360
   pitch:
@@ -281,7 +264,7 @@ data_vars:
     attrs:
       long_name: Pitch
       standard_name: platform_pitch
-      units: deg
+      units: degree
       valid_min: -180
       valid_max: 180
   roll:
@@ -290,7 +273,7 @@ data_vars:
     attrs:
       long_name: Roll
       standard_name: platform_roll
-      units: deg
+      units: degree
       valid_min: -180
       valid_max: 180
   orientmat:
@@ -326,124 +309,20 @@ data_vars:
     attrs:
       long_name: Temperature
       standard_name: sea_water_temperature
-      units: degC
-
-  transmit_energy:
-    dims: [time]
-    dtype: int32
-    attrs:
-      long_name: Transmit Energy
-      standard_name: sound_pressure_level_of_acoustic_signal
-      units: dB
-  transmit_energy_bt:
-    dims: [time_bt]
-    dtype: int32
-    attrs:
-      long_name: Bottom Track Transmit Energy
-      standard_name: sound_pressure_level_of_acoustic_signal
-      units: dB
-  transmit_energy_echo:
-    dims: [time_echo]
-    dtype: int32
-    attrs:
-      long_name: Echo Sounder Transmit Energy
-      standard_name: sound_pressure_level_of_acoustic_signal
-      units: dB
-  error:
-    dims: [time]
-    dtype: int32
-    attrs:
-      long_name: Error Code
-      units: "1"
-  error_bt:
-    dims: [time_bt]
-    dtype: int32
-    attrs:
-      long_name: Bottom Track Error Code
-      units: "1"
-  error_echo:
-    dims: [time_echo]
-    dtype: int32
-    attrs:
-      long_name: Echo Sounder Error Code
-      units: "1"
-  ensemble:
-    dims: [time]
-    dtype: uint32
-    attrs:
-      units: count
-      long_name: Ensemble Number
-      standard_name: number_of_observations
-  ensemble_bt:
-    dims: [time_bt]
-    dtype: uint32
-    attrs:
-      units: count
-      long_name: Bottom Track Ensemble Number
-      standard_name: number_of_observations
-  ensemble_echo:
-    dims: [time_echo]
-    dtype: uint32
-    attrs:
-      units: count
-      long_name: Echo Sounder Ensemble Number
-      standard_name: number_of_observations
-  status:
-    dims: [time]
-    dtype: uint32
-    attrs:
-      units: "1"
-      long_name: Status Code
-  status_bt:
-    dims: [time_bt]
-    dtype: uint32
-    attrs:
-      units: "1"
-      long_name: Bottom Track Status Code
-  status_echo:
-    dims: [time_echo]
-    dtype: uint32
-    attrs:
-      units: "1"
-      long_name: Echo Sounder Status Code
-
-  active_configuration:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Active configuration for instruments running a dual profile"
-      units: "1"
-  boost_running_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Boost mode running (0 or 1)"
-      units: "1"
-  low_voltage_skip_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Ping skipped due to low voltage (0 or 1)"
-      units: "1"
-  telemetry_data_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Ping has associated telemetry data (0 or 1)"
-      units: "1"
+      units: degree_C
 
   latitude_gps:
     dims: [time_gps]
     dtype: float32
     attrs:
-      units: deg N
+      units: degree_N
       long_name: Latitude
       standard_name: latitude
   longitude_gps:
     dims: [time_gps]
     dtype: float32
     attrs:
-      units: deg E
+      units: degree_E
       long_name: Longitude
       standard_name: longitude
   vel_gps:

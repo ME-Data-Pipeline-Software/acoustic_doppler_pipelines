@@ -153,22 +153,6 @@ data_vars:
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
       units: "%"
-  U_mag:
-    dims: [range, time]
-    dtype: float32
-    attrs:
-      long_name: Water Speed
-      standard_name: sea_water_speed
-      units: m/s
-      valid_min: -5
-      valid_max: 5
-  U_dir:
-    dims: [range, time]
-    dtype: float32
-    attrs:
-      long_name: Water Direction
-      standard_name: sea_water_to_direction
-      units: degrees_CW_from_North
   depth:
     dims: [time]
     dtype: float32
@@ -253,79 +237,3 @@ data_vars:
       long_name: Temperature
       standard_name: sea_water_temperature
       units: degC
-  transmit_energy:
-    dims: [time]
-    dtype: int32
-    attrs:
-      long_name: Transmit Energy
-      standard_name: sound_pressure_level_of_acoustic_signal
-      units: dB
-  transmit_energy_b5:
-    dims: [time_b5]
-    dtype: int32
-    attrs:
-      long_name: Beam 5 Transmit Energy
-      standard_name: sound_pressure_level_of_acoustic_signal
-      units: dB
-  error:
-    dims: [time]
-    dtype: int32
-    attrs:
-      long_name: Error Code
-      units: "1"
-  error_b5:
-    dims: [time_b5]
-    dtype: int32
-    attrs:
-      long_name: Beam 5 Error Code
-      units: "1"
-  status:
-    dims: [time]
-    dtype: uint32
-    attrs:
-      units: "1"
-      long_name: Status Code
-  status_b5:
-    dims: [time_b5]
-    dtype: uint32
-    attrs:
-      units: "1"
-      long_name: Beam 5 Status Code
-  ensemble:
-    dims: [time]
-    dtype: uint32
-    attrs:
-      units: count
-      long_name: Ensemble Number
-      standard_name: number_of_observations
-  ensemble_b5:
-    dims: [time_b5]
-    dtype: uint32
-    attrs:
-      units: count
-      long_name: Beam 5 Ensemble Number
-      standard_name: number_of_observations
-  active_configuration:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Active configuration for instruments running a dual profile"
-      units: "1"
-  boost_running_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Boost mode running (0 or 1)"
-      units: "1"
-  low_voltage_skip_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Ping skipped due to low voltage (0 or 1)"
-      units: "1"
-  telemetry_data_flag:
-    dims: [time]
-    dtype: int32
-    attrs:
-      description: "Ping has associated telemetry data (0 or 1)"
-      units: "1"

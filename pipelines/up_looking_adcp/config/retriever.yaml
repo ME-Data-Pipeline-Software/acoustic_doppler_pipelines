@@ -62,27 +62,3 @@ data_vars:
     name: pressure
   temperature:
     name: temp
-  transmit_energy:
-    name: xmit_energy
-  transmit_energy_b5:
-    name: xmit_energy_b5
-  error:
-    name: error
-  error_b5:
-    name: error_b5
-  status:
-    name: status
-  ensemble:
-    name: ensemble
-  status_b5:
-    name: status_b5
-  ensemble_b5:
-    name: ensemble_b5
-  active_configuration:
-    name: active_config
-  low_voltage_skip_flag:
-    name: low_volt_skip
-  boost_running_flag:
-    name: boost_running
-  telemetry_data_flag:
-    name: telemetry_data

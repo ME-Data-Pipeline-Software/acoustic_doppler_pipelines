@@ -16,11 +16,11 @@ class UpLookingADCP(IngestPipeline):
         # (Optional) Use this hook to modify the dataset before qc is applied
 
         # Locate surface using pressure data and remove data beyond it
-        api.clean.nan_beyond_surface(dataset, inplace=True)
+        api.clean.remove_surface_interference(dataset, inplace=True)
 
         # Speed and Direction
-        dataset["U_mag"].values = dataset.velds.U_mag
-        dataset["U_dir"].values = dataset.velds.U_dir
+        dataset["U_mag"] = dataset.velds.U_mag
+        dataset["U_dir"] = dataset.velds.U_dir
 
         return dataset
 
