@@ -51,7 +51,7 @@ class UpFacingADCPReader(DataReader):
 
         # Set depth below water surface
         api.clean.set_range_offset(ds, self.parameters.depth_offset)
-        api.clean.find_surface_from_P(ds, salinity=self.parameters.salinity)
+        api.clean.water_depth_from_pressure(ds, salinity=self.parameters.salinity)
 
         # Rotate to Earth coordinates
         dolfyn.set_declination(ds, self.parameters.magnetic_declination)
