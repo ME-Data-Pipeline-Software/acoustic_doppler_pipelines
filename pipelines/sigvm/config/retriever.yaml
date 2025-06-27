@@ -81,9 +81,6 @@ data_vars:
   dist_bt:
     .*\.AD2CP:
       name: dist_bt
-  fom_bt:
-    .*\.AD2CP:
-      name: fom_bt
 
   le_dist_alt:
     .*\.AD2CP:

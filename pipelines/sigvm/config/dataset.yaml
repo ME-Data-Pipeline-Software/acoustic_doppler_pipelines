@@ -193,13 +193,6 @@ data_vars:
       long_name: Bottom Track Depth
       standard_name: depth_below_platform
       units: m
-  fom_bt:
-    dims: [dir, time_bt]
-    dtype: uint16
-    attrs:
-      units: "1"
-      long_name: Figure of Merit
-      coverage_content_type: physicalMeasurement
 
   le_dist_alt:
     dims: [time]
@@ -333,14 +326,14 @@ data_vars:
       long_name: Velocity from GPS
   fix_gps:
     dims: [time_gps]
-    dtype: int8
+    dtype: int16
     attrs:
       units: "1"
       long_name: GPS Fix
       standard_name: gps_fix_type
   n_sat_gps:
     dims: [time_gps]
-    dtype: int8
+    dtype: int16
     attrs:
       units: count
       long_name: Number of Satellites

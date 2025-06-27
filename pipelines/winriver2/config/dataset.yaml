@@ -150,7 +150,7 @@ data_vars:
   #     valid_max: 5
   amp:
     dims: [beam, range, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: counts
       long_name: Acoustic Signal Amplitude
@@ -158,20 +158,18 @@ data_vars:
       coverage_content_type: physicalMeasurement
   corr:
     dims: [beam, range, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: counts
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
-      coverage_content_type: physicalMeasurement
   prcnt_gd:
     dims: [beam, range, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: "%"
       long_name: Percent Good
       standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
-      coverage_content_type: physicalMeasurement
 
   dist_bt:
     dims: [beam, time]
@@ -193,15 +191,14 @@ data_vars:
       valid_max: 10
   corr_bt:
     dims: [beam, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: counts
       long_name: Bottom Track Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
-      coverage_content_type: physicalMeasurement
   amp_bt:
     dims: [beam, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: counts
       long_name: Bottom Track Acoustic Signal Amplitude
@@ -209,12 +206,11 @@ data_vars:
       coverage_content_type: physicalMeasurement
   prcnt_gd_bt:
     dims: [beam, time]
-    dtype: uint8
+    dtype: int16
     attrs:
       units: "%"
       long_name: Bottom Track Percent Good
       standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
-      coverage_content_type: physicalMeasurement
 
   depth:
     dims: [time]
@@ -308,7 +304,7 @@ data_vars:
   #     units: dB
   number:
     dims: [time]
-    dtype: uint32
+    dtype: int32
     attrs:
       units: "1"
       long_name: Ensemble Number
@@ -350,13 +346,13 @@ data_vars:
       long_name: Velocity from GPS
   fix_gps:
     dims: [time_gps]
-    dtype: int8
+    dtype: int16
     attrs:
       units: "1"
       long_name: GPS Fix
   n_sat_gps:
     dims: [time_gps]
-    dtype: int8
+    dtype: int16
     attrs:
       units: count
       long_name: Number of Satellites
