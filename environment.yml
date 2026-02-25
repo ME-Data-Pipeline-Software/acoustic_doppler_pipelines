@@ -4,7 +4,7 @@ name: adcp-pipelines
 channels:
   - conda-forge
 dependencies:
-  - python=3.11
+  - python<3.13
   - hdf5
   - pytables
   - pip
