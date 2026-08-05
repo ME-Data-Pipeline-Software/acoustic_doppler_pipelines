@@ -19,8 +19,8 @@ class UpLookingADCP(IngestPipeline):
         api.clean.remove_surface_interference(dataset, inplace=True)
 
         # Speed and Direction
-        dataset["U_mag"] = dataset.velds.U_mag
-        dataset["U_dir"] = dataset.velds.U_dir
+        dataset["speed"].values = dataset.velds.U_mag.values
+        dataset["direction"].values = dataset.velds.U_dir.values
 
         return dataset
 

@@ -183,6 +183,23 @@ data_vars:
       units: "%"
       long_name: Bottom Track Percent Good
       standard_name: proportion_of_acceptable_signal_returns_from_acoustic_instrument_in_sea_water
+  speed: 
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Speed
+      standard_name: sea_water_speed
+      units: m/s
+      valid_min: 0
+  direction: 
+    dims: [range, time]
+    dtype: float32
+    attrs:
+      long_name: Water Direction, CW from N
+      standard_name: sea_water_to_direction
+      units: degree
+      valid_min: 0
+      valid_max: 360
 
   depth:
     dims: [time]

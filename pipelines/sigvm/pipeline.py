@@ -148,8 +148,8 @@ class SigVM(IngestPipeline):
             dataset["vel"].values = (dataset["vel"] + vel_cor).values
 
         # Speed and Direction
-        dataset["U_mag"] = dataset.velds.U_mag
-        dataset["U_dir"] = dataset.velds.U_dir
+        dataset["speed"].values = dataset.velds.U_mag.values
+        dataset["direction"].values = dataset.velds.U_dir.values
 
         return dataset
 
@@ -257,7 +257,7 @@ class SigVM(IngestPipeline):
             h = ax.scatter(
                 ds["longitude_gps"],
                 ds["latitude_gps"],
-                c=ds["U_mag"].mean("range").interp(time=ds["time_gps"]).values,
+                c=ds["speed"].mean("range").interp(time=ds["time_gps"]).values,
                 cmap="Blues",
                 s=100,
             )

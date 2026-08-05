@@ -142,8 +142,8 @@ class VmdasADCP(IngestPipeline):
             dataset["vel"].values = (dataset["vel"] + vel_cor).values
 
         # Speed and Direction
-        dataset["U_mag"] = dataset.velds.U_mag
-        dataset["U_dir"] = dataset.velds.U_dir
+        dataset["speed"].values = dataset.velds.U_mag.values
+        dataset["direction"].values = dataset.velds.U_dir.values
 
         return dataset
 
@@ -251,8 +251,10 @@ class VmdasADCP(IngestPipeline):
             ax[0].plot(ds["time"].values, ds["vel"][1].mean("range"), label="North")
             ax[0].plot(ds["time"].values, ds["vel"][2].mean("range"), label="Up")
             ax[0].legend()
-            ax[1].plot(ds["time"].values, ds["U_mag"].mean("range"), label="Speed")
-            ax[2].plot(ds["time"].values, ds["U_dir"].mean("range"), label="Direction")
+            ax[1].plot(ds["time"].values, ds["speed"].mean("range"), label="Speed")
+            ax[2].plot(
+                ds["time"].values, ds["direction"].mean("range"), label="Direction"
+            )
             ax[0].set(xlabel="Time", ylabel="Velocity [m/s]", ylim=(-2, 2))
             ax[1].set(xlabel="Time", ylabel="Speed", ylim=(0, 2))
             ax[2].set(xlabel="Time", ylabel="Direction")
@@ -268,7 +270,7 @@ class VmdasADCP(IngestPipeline):
             h = ax.scatter(
                 ds["longitude_gps"],
                 ds["latitude_gps"],
-                c=ds["U_mag"].mean("range").interp(time=ds["time_gps"]).values,
+                c=ds["speed"].mean("range").interp(time=ds["time_gps"]).values,
                 cmap="Blues",
                 s=100,
             )
