@@ -53,7 +53,8 @@ class CustomQualityHandler(QualityHandler):
 
     ----------------------------------------------------------------------------"""
 
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         """If your QualityChecker should take any additional arguments from the
         quality configuration file, then those should be specified here.
 

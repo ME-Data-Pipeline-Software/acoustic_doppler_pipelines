@@ -2,7 +2,7 @@ import xarray as xr
 import numpy as np
 from numpy.typing import NDArray
 import scipy.stats as st
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 
 from tsdat import QualityChecker, QualityHandler
 from mhkit.dolfyn.adv.clean import GN2002, clean_fill
@@ -22,7 +22,8 @@ class CheckCorrelation(QualityChecker):
 
     ----------------------------------------------------------------------------"""
 
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         correlation_threshold: int = 30
 
     parameters: Parameters = Parameters()
@@ -48,7 +49,8 @@ class CheckOutliers(QualityChecker):
 
     ---------------------------------------------------------------------------------"""
 
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         n_std: int = 3
 
     parameters: Parameters = Parameters()
@@ -77,7 +79,8 @@ class CheckGoringNikora2002(QualityChecker):
 
     ----------------------------------------------------------------------------"""
 
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         n_points: int = 5000
 
     parameters: Parameters = Parameters()
@@ -110,7 +113,8 @@ class CubicSplineInterp(QualityHandler):
         The dataArray with nan's filled in
     ----------------------------------------------------------------------------"""
 
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         n_points: int = 12
         method: str = "cubic"
 

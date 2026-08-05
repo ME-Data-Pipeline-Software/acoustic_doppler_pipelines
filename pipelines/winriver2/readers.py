@@ -1,5 +1,5 @@
 from typing import Dict, Union
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 import xarray as xr
 import mhkit.dolfyn as dolfyn
 from mhkit.dolfyn.adp import api
@@ -7,7 +7,8 @@ from tsdat import DataReader
 
 
 class WinRiver2ADCPReader(DataReader):
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         depth_offset: float = 0.5  # instrument depth below the water surface
         magnetic_declination: float = 0
 

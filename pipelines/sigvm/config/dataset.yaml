@@ -164,7 +164,7 @@ data_vars:
       units: dB
   corr:
     dims: [beam, range, time]
-    dtype: int32
+    dtype: float32
     attrs:
       long_name: Acoustic Signal Correlation
       standard_name: beam_consistency_indicator_from_multibeam_acoustic_doppler_velocity_profiler_in_sea_water
@@ -203,7 +203,7 @@ data_vars:
       units: m
   le_quality_alt:
     dims: [time]
-    dtype: int32
+    dtype: float32
     attrs:
       long_name: Altimeter Quality (Leading Edge Algorithm)
       units: dB
@@ -216,7 +216,7 @@ data_vars:
       units: m
   ast_quality_alt:
     dims: [time]
-    dtype: int32
+    dtype: float32
     attrs:
       long_name: Altimeter Quality (Acoustic Surface Tracking)
       units: dB

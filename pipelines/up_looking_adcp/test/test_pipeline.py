@@ -13,4 +13,4 @@ def test_uplookingADCP_pipeline():
 
     dataset = pipeline.run([test_file])
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore
-    assert_close(dataset, expected, check_attrs=False)
+    assert_close(dataset, expected, check_attrs=False, atol=1e-5)

@@ -1,7 +1,7 @@
 import warnings
 from pathlib import Path
 from typing import Dict, Union
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -13,7 +13,8 @@ import pynmea2
 
 
 class VmdasADCPReader(DataReader):
-    class Parameters(BaseModel, extra=Extra.forbid):
+    class Parameters(BaseModel):
+        model_config = ConfigDict(extra="forbid")
         depth_offset: float = 1
         magnetic_declination: float = 0
         heading_misalignment: float = 45

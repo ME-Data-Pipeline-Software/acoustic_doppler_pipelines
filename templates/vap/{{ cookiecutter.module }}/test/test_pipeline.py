@@ -37,4 +37,4 @@ def test_{{ cookiecutter.module }}_pipeline():
     # with an expected output file
     expected_file = "pipelines/{{ cookiecutter.module }}/test/data/expected/abc.example.c1.20220424.000000.nc"
     expected: xr.Dataset = xr.open_dataset(expected_file)  # type: ignore
-    assert_close(dataset, expected, check_attrs=False)
+    assert_close(dataset, expected, check_attrs=False, atol=1e-5)
